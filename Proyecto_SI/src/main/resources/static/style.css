@@ -1,0 +1,168 @@
+
+/* --- Configuración Global y Animación --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Contenedor Principal (Wrapper) --- */
+.login-wrapper {
+    width: 900px;
+    max-width: 90%;
+    height: 600px;
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 82, 212, 0.1);
+    overflow: hidden;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* --- Columna Izquierda (Branding) --- */
+.panel-branding {
+    flex: 1;
+    background: linear-gradient(135deg, #1e3a8a, #0052d4);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+}
+
+#logo-img {
+    width: 200px;
+    margin-bottom: 20px;
+    filter: invert(1) brightness(2);
+}
+
+.panel-branding h1 {
+    font-weight: 600;
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.panel-branding p {
+    font-weight: 300;
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+/* --- Columna Derecha (Formulario) --- */
+.panel-form {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#avatar-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.panel-form h2 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    color: #1a202c;
+    margin-bottom: 5px;
+}
+
+.panel-form .subtitle {
+    font-weight: 300;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+form {
+    width: 100%;
+    max-width: 350px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 400;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #0052d4; 
+    box-shadow: 0 0 5px rgba(0, 82, 212, 0.2);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #0052d4;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #1e3a8a; 
+}
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #555;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
