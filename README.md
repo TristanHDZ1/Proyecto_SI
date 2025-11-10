@@ -5,7 +5,7 @@ Materia: Sistemas de Información
 Profesor: Omar Mendoza González
 
  Descripción del Proyecto
-Este repositorio contiene el proyecto desarrollado para la materia de Sistemas de Información, el cual se basa en un caso de estudio para una óptica ficticia llamada "Lentilla".
+Este repositorio contiene el proyecto desarrollado para la materia de Sistemas de Información, el cual se basa en un caso de estudio para una óptica ficticia llamada "Lentica".
 
 El objetivo principal fue poner en práctica la metodología completa para la creación de un sistema de información, abarcando todas sus etapas, desde la concepción hasta el diseño, incluyendo:
 
