@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Panel de Soporte</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+    <div class="button-grid">
+        <a th:href="@{/soporte/historial}" class="grid-button">Historial</a>
+        <a th:href="@{/soporte/pulido}" class="grid-button">Pulido</a>
+        <a th:href="@{/soporte/ventas}" class="grid-button">Ventas</a>
+        <a th:href="@{/soporte/estado-proveedores}" class="grid-button">Estado de cuentas proveedores</a>
+
+        <a th:href="@{/soporte/saldos}" class="grid-button">Saldos</a>
+        <a th:href="@{/soporte/cierre-dia}" class="grid-button">Cierre de día</a>
+        <a th:href="@{/soporte/notas-proveedores}" class="grid-button">Notas proveedores</a>
+        <a th:href="@{/soporte/garantias}" class="grid-button">Garantías</a>
+    </div>
+
+    <div class="content-footer-soporte">
+        <a th:href="@{/login}" class="btn-logout-bottom">Cerrar Sesión</a>
+
+        <button id="openResurtidoModal" class="floating-button">
+            <i class="fas fa-glasses"></i> Resurtido
+        </button>
+    </div>
+
+    <div id="resurtidoModal" class="modal modal-blue-theme">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 class="modal-title">Enviar Productos a Sucursal</h2>
+                <span class="close-button">&times;</span>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="resurtido-form">
+                    <div class="form-group">
+                        <label for="codigoArmazon" class="input-label">Código (Producto)</label>
+                        <input type="text" id="codigoArmazon" class="modal-input" placeholder="Ej: ARM-00123">
+                    </div>
+                    <div class="form-group form-group-small">
+                        <label for="cantidadArmazon" class="input-label">Cantidad</label>
+                        <input type="number" id="cantidadArmazon" class="modal-input" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="sucursalDestino" class="input-label">Sucursal</label>
+                        <select id="sucursalDestino" class="modal-select">
+                            <option value="">Selecciona una</option>
+                            <option value="Matriz">Matriz</option>
+                            <option value="Sucursal A">Sucursal A</option>
+                            <option value="Sucursal B">Sucursal B</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-group-button">
+                        <button class="modal-action-button" id="addArmazonToList">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                    </div>
+                </div>
+
+                <div class="resurtido-list-container">
+
+                    <div class="list-header-row">
+                        <div class="col-cantidad">Cantidad</div>
+                        <div class="col-producto">Producto (Código)</div>
+                        <div class="col-sucursal">Sucursal</div>
+                        <div class="col-accion">Acción</div>
+                    </div>
+
+                    <ul id="armazonList" class="armazon-list">
+                        <li class="list-empty-state">Aún no hay armazones en la lista.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <p class="user-info">Despachado por: <strong th:text="${username}">Soporte</strong></p>
+                <button class="modal-action-button" id="confirmResurtido">
+                    <i class="fas fa-paper-plane"></i> Enviar Resurtido
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Obtenemos el username desde Thymeleaf
+        const username = /*[[${username}]]*/ 'Usuario Desconocido';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Referencias a elementos del DOM
+            const openModalBtn = document.getElementById('openResurtidoModal');
+            const modal = document.getElementById('resurtidoModal');
+            const closeBtn = modal.querySelector('.close-button');
+
+            const addArmazonBtn = document.getElementById('addArmazonToList');
+            const confirmResurtidoBtn = document.getElementById('confirmResurtido');
+
+            const armazonList = document.getElementById('armazonList');
+            const codigoInput = document.getElementById('codigoArmazon');
+            const cantidadInput = document.getElementById('cantidadArmazon');
+            const sucursalSelect = document.getElementById('sucursalDestino');
+
+            // Mapa para rastrear los ítems y sus cantidades
+            const itemMap = new Map();
+
+            // --- Funciones del Modal ---
+            function abrirModal() {
+                modal.style.display = 'flex'; // Usamos flex para centrar
+            }
+            function cerrarModal() {
+                modal.style.display = 'none';
+            }
+
+            // --- Lógica Principal ---
+            function añadirOActualizarItem() {
+                const codigo = codigoInput.value.trim().toUpperCase();
+                const sucursal = sucursalSelect.value;
+                const cantidad = parseInt(cantidadInput.value, 10);
+
+                if (!codigo || !sucursal || isNaN(cantidad) || cantidad < 1) {
+                    alert('Por favor, completa todos los campos (Código, Cantidad > 0, y Sucursal).');
+                    return;
+                }
+
+                const itemKey = `${codigo}-${sucursal}`;
+
+                if (itemMap.has(itemKey)) {
+                    const itemExistente = itemMap.get(itemKey);
+                    itemExistente.cantidad += cantidad;
+                } else {
+                    itemMap.set(itemKey, {
+                        codigo: codigo,
+                        sucursal: sucursal,
+                        cantidad: cantidad,
+                        usuario: username
+                    });
+                }
+                renderizarLista();
+                codigoInput.value = '';
+                cantidadInput.value = '1';
+                codigoInput.focus();
+            }
+
+            // Función para (re)dibujar la lista
+            function renderizarLista() {
+                armazonList.innerHTML = '';
+
+                if (itemMap.size === 0) {
+                    armazonList.innerHTML = '<li class="list-empty-state">Aún no hay armazones en la lista.</li>';
+                    return;
+                }
+
+                itemMap.forEach((item, key) => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'armazon-item';
+                    listItem.dataset.itemKey = key;
+
+                    // Usamos la misma estructura de columnas que la cabecera
+                    listItem.innerHTML = `
+                    <div class="col-cantidad"><strong>${item.cantidad}</strong></div>
+                    <div class="col-producto">${item.codigo}</div>
+                    <div class="col-sucursal">${item.sucursal}</div>
+                    <div class="col-accion">
+                        <button class="remove-item-btn" title="Eliminar ítem">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </div>
+                `;
+                    armazonList.appendChild(listItem);
+                });
+            }
+
+            // Función para manejar clics DENTRO de la lista
+            function manejarClicEnLista(event) {
+                const botonBorrar = event.target.closest('.remove-item-btn');
+
+                if (botonBorrar) {
+                    const itemKey = botonBorrar.closest('.armazon-item').dataset.itemKey;
+                    itemMap.delete(itemKey);
+                    renderizarLista();
+                }
+            }
+
+            // Simulación de Confirmar Resurtido
+            function confirmarResurtido() {
+                if (itemMap.size === 0) {
+                    alert('No hay armazones en la lista para confirmar.');
+                    return;
+                }
+
+                alert(`Resurtido confirmado con ${itemMap.size} tipos de armazones.\n(Esta es una simulación)`);
+
+                itemMap.clear();
+                renderizarLista();
+                cerrarModal();
+            }
+
+            // --- Asignación de Eventos ---
+            openModalBtn.addEventListener('click', abrirModal);
+            closeBtn.addEventListener('click', cerrarModal);
+            addArmazonBtn.addEventListener('click', añadirOActualizarItem);
+            confirmResurtidoBtn.addEventListener('click', confirmarResurtido);
+            armazonList.addEventListener('click', manejarClicEnLista);
+
+            window.addEventListener('click', function(event) {
+                if (event.target == modal) {
+                    cerrarModal();
+                }
+            });
+
+            cantidadInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    añadirOActualizarItem();
+                }
+            });
+        });
+        /*]]>*/
+    </script>
+
+</main>
+</body>
+</html>

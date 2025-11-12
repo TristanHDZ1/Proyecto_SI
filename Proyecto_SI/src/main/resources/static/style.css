@@ -166,3 +166,32 @@ form {
 .forgot-password:hover {
     text-decoration: underline;
 }
+/* Agregué ".input-group select" para que el nuevo menú tome el mismo estilo que los inputs */
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    /* Apariencia para que el select no se vea nativo feo */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    /* Añadimos un ícono de flecha (opcional, pero mejora la estética) */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 1.2em;
+}
+
+/* Agregué el :focus para el select también */
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: #0052d4;
+    box-shadow: 0 0 5px rgba(0, 82, 212, 0.2);
+}

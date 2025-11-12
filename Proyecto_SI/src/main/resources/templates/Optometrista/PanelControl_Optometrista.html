@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Panel de Optometrista</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="carousel-container">
+        <div class="carousel-slide">
+
+            <div class="slide-item" style="background-color: #8fb8e8;">
+                <h2>Promociones y Avisos</h2>
+                <p>20% de descuento en micas Blue-Light este mes.</p>
+            </div>
+
+            <div class="slide-item" style="background-color: #a1c4fd;">
+                <h2>Aviso Importante</h2>
+                <p>La sucursal Matriz cerrará a las 3pm el viernes.</p>
+            </div>
+
+            <div class="slide-item" style="background-color: #b3d1ff;">
+                <h2>Nuevos Productos</h2>
+                <p>¡Llegaron los nuevos armazones Ray-Ban!</p>
+            </div>
+
+        </div>
+        <div class="carousel-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+        </div>
+    </div>
+
+    <div class="button-grid">
+        <a th:href="@{/optometrista/nuevo-historial}" class="grid-button">Nuevo historial</a>
+        <a th:href="@{/optometrista/historial}" class="grid-button">Historial</a>
+        <a th:href="@{/optometrista/ventas}" class="grid-button">Ventas</a>
+        <a th:href="@{/optometrista/garantias}" class="grid-button">Garantías</a>
+    </div>
+
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Solo ejecuta el script si el carrusel existe en esta página
+            const carouselContainer = document.querySelector('.carousel-container');
+            if (!carouselContainer) return;
+
+            const slide = carouselContainer.querySelector('.carousel-slide');
+            const items = carouselContainer.querySelectorAll('.slide-item');
+            const dots = carouselContainer.querySelectorAll('.dot');
+
+            if (items.length === 0) return; // No hacer nada si no hay slides
+
+            let currentIndex = 0;
+            const totalItems = items.length;
+
+            function showSlide(index) {
+                // Validar índice
+                if (index >= totalItems) index = 0;
+                if (index < 0) index = totalItems - 1;
+
+                // Mover el contenedor del slide
+                slide.style.transform = `translateX(-${index * 100}%)`;
+
+                // Actualizar los puntos
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[index].classList.add('active');
+                currentIndex = index;
+            }
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    showSlide(parseInt(dot.dataset.slide));
+                });
+            });
+
+            // Opcional: Auto-play. Descomenta las 4 líneas de abajo si quieres que se mueva solo.
+            // let autoPlayInterval = setInterval(() => {
+            //     let nextIndex = (currentIndex + 1) % totalItems;
+            //     showSlide(nextIndex);
+            // }, 5000); // Cambia cada 5 segundos
+
+            // Mostrar el primer slide al cargar
+            showSlide(0);
+        });
+    </script>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Panel de Vendedor</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="carousel-container">
+        <div class="carousel-slide">
+            <div class="slide-item" style="background-color: #8fb8e8;">
+                <h2>Promociones y Avisos</h2>
+                <p>Armazones nuevos cada 15 días.</p>
+            </div>
+            <div class="slide-item" style="background-color: #a1c4fd;">
+                <h2>Aviso: Cierre de Día</h2>
+                <p>Recuerda hacer tu cierre de caja antes de las 7pm.</p>
+            </div>
+        </div>
+        <div class="carousel-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+        </div>
+    </div>
+
+    <div class="button-grid">
+        <a th:href="@{/vendedor/nueva-venta}" class="grid-button">Nueva Venta</a>
+        <a th:href="@{/vendedor/historial}" class="grid-button">Historial</a>
+        <a th:href="@{/vendedor/ventas}" class="grid-button">Ventas</a>
+        <a th:href="@{/vendedor/asistencia}" class="grid-button">Asistencia</a>
+        <a th:href="@{/vendedor/saldos}" class="grid-button">Saldos</a>
+        <a th:href="@{/vendedor/cierre-dia}" class="grid-button">Cierre del día</a>
+        <a th:href="@{/vendedor/inventario}" class="grid-button">Inventario quincenal</a>
+    </div>
+
+    <div class="content-footer-vendedor">
+
+        <button id="openResurtidoModal" class="floating-button">
+            <i class="fas fa-glasses"></i> Resurtido
+        </button>
+    </div>
+
+
+    <div id="resurtidoModal" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">RESURTIDO DIARIO</h2>
+                <span class="close-button close-modal-1">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="resurtido-form">
+                    <div class="form-group form-group-small">
+                        <label for="cantidadProducto" class="input-label">Cantidad</label>
+                        <input type="number" id="cantidadProducto" class="modal-input" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="codigoProducto" class="input-label">Producto</label>
+                        <input type="text" id="codigoProducto" class="modal-input" placeholder="Ej: LENTICA T1">
+                    </div>
+                    <div class="form-group form-group-button">
+                        <button class="modal-action-button" id="addProductoToList">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                    </div>
+                </div>
+
+                <div class="resurtido-list-container">
+                    <div class="list-header-row">
+                        <div class="col-cantidad">Cantidad</div>
+                        <div class="col-producto">Producto</div>
+                    </div>
+                    <ul id="productoList" class="armazon-list">
+                        <li class="list-empty-state">Agrega productos a la lista...</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action-button btn-limpiar" id="limpiarListaBtn">LIMPIAR</button>
+                <button class="modal-action-button btn-pedir" id="pedirResurtidoBtn">PEDIR</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="confirmRecibidoModal" class="modal modal-confirm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h2 class="modal-title-confirm">¿YA ENTREGARON EL RESUTIDO?</h2>
+                <div class="confirm-buttons">
+                    <button class="btn-confirm-si" id="confirmSi">SI</button>
+                    <button class="btn-confirm-no" id="confirmNo">NO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        // --- ESTADO GLOBAL ---
+        // ¡NUEVO! Esta es nuestra "memoria".
+        // false = No se ha pedido nada.
+        // true = Ya se pidió, estamos esperando entrega.
+        let pedidoPendiente = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            /* --- 1. LÓGICA DEL CARRUSEL (Sin cambios) --- */
+            const carouselContainer = document.querySelector('.carousel-container');
+            if (carouselContainer) {
+                const slide = carouselContainer.querySelector('.carousel-slide');
+                const items = carouselContainer.querySelectorAll('.slide-item');
+                const dots = carouselContainer.querySelectorAll('.dot');
+
+                if (items.length > 0) {
+                    let currentIndex = 0;
+                    const totalItems = items.length;
+
+                    function showSlide(index) {
+                        if (index >= totalItems) index = 0;
+                        if (index < 0) index = totalItems - 1;
+                        slide.style.transform = `translateX(-${index * 100}%)`;
+                        dots.forEach(dot => dot.classList.remove('active'));
+                        dots[index].classList.add('active');
+                        currentIndex = index;
+                    }
+                    dots.forEach(dot => {
+                        dot.addEventListener('click', () => {
+                            showSlide(parseInt(dot.dataset.slide));
+                        });
+                    });
+                    showSlide(0);
+                }
+            }
+
+            /* --- 2. LÓGICA DE MODALES DE RESURTIDO --- */
+
+            // Referencias a Modal 1 (Pedir)
+            const openModalBtn = document.getElementById('openResurtidoModal');
+            const modal1 = document.getElementById('resurtidoModal');
+            const closeModal1Btn = modal1.querySelector('.close-modal-1');
+            const addProductoBtn = document.getElementById('addProductoToList');
+            const limpiarListaBtn = document.getElementById('limpiarListaBtn');
+            const pedirResurtidoBtn = document.getElementById('pedirResurtidoBtn');
+            const productoList = document.getElementById('productoList');
+            const cantidadInput = document.getElementById('cantidadProducto');
+            const productoInput = document.getElementById('codigoProducto');
+
+            // Referencias a Modal 2 (Confirmar)
+            const modal2 = document.getElementById('confirmRecibidoModal');
+            const confirmSiBtn = document.getElementById('confirmSi');
+            const confirmNoBtn = document.getElementById('confirmNo');
+
+            const itemMap = new Map(); // Mapa para la lista
+
+            // --- Funciones Modal 1 ---
+            function abrirModal1() { modal1.style.display = 'flex'; }
+            function cerrarModal1() { modal1.style.display = 'none'; }
+
+            function añadirItem() {
+                const cantidad = parseInt(cantidadInput.value, 10);
+                const producto = productoInput.value.trim().toUpperCase();
+                if (!producto || isNaN(cantidad) || cantidad < 1) {
+                    alert('Ingresa un producto y cantidad válida.');
+                    return;
+                }
+                const itemKey = producto;
+                if (itemMap.has(itemKey)) {
+                    itemMap.get(itemKey).cantidad += cantidad;
+                } else {
+                    itemMap.set(itemKey, { producto: producto, cantidad: cantidad });
+                }
+                renderizarLista();
+                productoInput.value = '';
+                cantidadInput.value = '1';
+                productoInput.focus();
+            }
+
+            function renderizarLista() {
+                productoList.innerHTML = '';
+                if (itemMap.size === 0) {
+                    productoList.innerHTML = '<li class="list-empty-state">Agrega productos a la lista...</li>';
+                    return;
+                }
+                itemMap.forEach((item, key) => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'armazon-item';
+                    listItem.innerHTML = `
+                    <div class="col-cantidad"><strong>${item.cantidad}</strong></div>
+                    <div class="col-producto">${item.producto}</div>
+                `;
+                    productoList.appendChild(listItem);
+                });
+            }
+
+            function limpiarLista() {
+                itemMap.clear();
+                renderizarLista();
+            }
+
+            function pedirResurtido() {
+                if (itemMap.size === 0) {
+                    alert('No hay productos en la lista para pedir.');
+                    return;
+                }
+                alert('¡Pedido de resurtido enviado! (Simulación)');
+                limpiarLista();
+                cerrarModal1();
+
+                // ¡CAMBIO!
+                // Ya no abrimos el modal 2.
+                // Solo levantamos la bandera para la próxima vez.
+                pedidoPendiente = true;
+            }
+
+            // --- Funciones Modal 2 ---
+            function abrirModal2() { modal2.style.display = 'flex'; }
+            function cerrarModal2() { modal2.style.display = 'none'; }
+
+            function confirmarRecepcion(recibido) {
+                if (recibido) {
+                    alert('Confirmaste la recepción. ¡Gracias! (Simulación)');
+                } else {
+                    alert('Reportaste que NO se recibió. (Simulación)');
+                }
+                cerrarModal2();
+
+                // ¡CAMBIO!
+                // Reseteamos la bandera.
+                // El próximo clic volverá a abrir el modal 1.
+                pedidoPendiente = false;
+            }
+
+            // --- Asignación de Eventos ---
+
+            // ¡¡CAMBIO PRINCIPAL!!
+            // Este botón ahora es inteligente.
+            openModalBtn.addEventListener('click', function() {
+                if (pedidoPendiente) {
+                    // Si hay un pedido pendiente, abre el modal 2
+                    abrirModal2();
+                } else {
+                    // Si no, abre el modal 1
+                    abrirModal1();
+                }
+            });
+
+            // El resto de eventos quedan igual
+            closeModal1Btn.addEventListener('click', cerrarModal1);
+            addProductoBtn.addEventListener('click', añadirItem);
+            limpiarListaBtn.addEventListener('click', limpiarLista);
+            pedirResurtidoBtn.addEventListener('click', pedirResurtido);
+
+            confirmSiBtn.addEventListener('click', () => confirmarRecepcion(true));
+            confirmNoBtn.addEventListener('click', () => confirmarRecepcion(false));
+
+            window.addEventListener('click', function(event) {
+                if (event.target == modal1) { cerrarModal1(); }
+                if (event.target == modal2) { cerrarModal2(); }
+            });
+        });
+        /*]]>*/
+    </script>
+
+</main>
+</body>
+</html>

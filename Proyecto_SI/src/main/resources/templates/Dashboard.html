@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(title, content)">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Lentica | <th:block th:replace="${title}">Dashboard</th:block></title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<header class="main-header">
+  <div class="header-logo">
+    <img th:src="@{/images/LogoLentica.png}" alt="Logo Lentica" id="header-logo-img"/>
+  </div>
+
+  <div class="header-user-nav">
+
+    <div class="notification-bell">
+      <i class="fas fa-bell"></i>
+      <span class="notification-badge">1</span>
+    </div>
+
+    <div class="user-dropdown">
+
+      <div class="header-user">
+        <span th:text="${username}">Administrador</span>
+        <div class="user-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <i class="fas fa-chevron-down dropdown-arrow"></i>
+      </div>
+
+      <div class="dropdown-menu">
+        <a th:href="@{/mi-perfil}">Mi Perfil</a>
+        <a th:href="@{/login}">Cerrar Sesión</a>
+      </div>
+
+    </div>
+  </div>
+
+</header>
+
+<div class="main-container">
+
+  <div th:replace="${content}">
+    <main class="content-area">
+      <h1 class="content-title">Error</h1>
+      <div class="content-wrapper">
+        <p>Error: Contenido no definido.</p>
+      </div>
+    </main>
+  </div>
+
+</div> </body>
+</html>

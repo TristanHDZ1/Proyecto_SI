@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Panel de Administrador</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="button-grid">
+        <a th:href="@{/admin/historial}" class="grid-button">Historial</a>
+        <a th:href="@{/admin/pulido}" class="grid-button">Pulido</a>
+        <a th:href="@{/admin/ventas}" class="grid-button">Ventas</a>
+        <a th:href="@{/admin/cuentas-proveedores}" class="grid-button">Estado de cuentas proveedores</a>
+
+        <a th:href="@{/admin/saldos}" class="grid-button">Saldos</a>
+        <a th:href="@{/admin/cierre}" class="grid-button">Cierre de día</a>
+        <a th:href="@{/admin/notas-proveedores}" class="grid-button">Notas proveedores</a>
+        <a th:href="@{/admin/almacen}" class="grid-button">Productos en almacen</a>
+
+        <a th:href="@{/admin/sucursales}" class="grid-button">Producto en sucursales</a>
+        <a th:href="@{/admin/avisos}" class="grid-button">Avisos y promociones</a>
+        <a th:href="@{/admin/horarios}" class="grid-button">Horarios y posiciones</a>
+        <a th:href="@{/admin/etiquetas}" class="grid-button">Etiquetas y ticket</a>
+
+        <a th:href="@{/admin/impresoras}" class="grid-button">Configuración de impresoras</a>
+        <a th:href="@{/admin/reportes}" class="grid-button">Reportes</a>
+        <a th:href="@{/admin/metricas}" class="grid-button">Metricas</a>
+    </div>
+
+    <div class="content-footer">
+        <a th:href="@{/login}" class="btn-logout-bottom">Cerrar Sesión</a>
+    </div>
+
+</main>
+
+</body>
+</html>
