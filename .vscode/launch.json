@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProyectoSiApplication<Proyecto_SI>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "Sistemas_Informacion.Proyecto.Proyecto_SI.ProyectoSiApplication",
+            "projectName": "Proyecto_SI",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

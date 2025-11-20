@@ -1,48 +1,59 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lentica | Iniciar Sesión</title>
+    <title>Inicio de Sesión</title>
+
     <link rel="stylesheet" href="/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="login-wrapper">
-        
+
         <div class="panel-branding">
-            <img src="/images/LogoLentica.png" alt="Logo Lentica" id="logo-img"/>
-            <h1>Bienvenido a Lentica</h1>
-            <p>Tu solución integral para la gestión óptica.</p>
+            <img id="logo-img" src="/Images/LogoLentica.png" alt="Logo Léntica">
+            <h1>Bienvenido a Léntica</h1>
+            <p>Sistema Integral de Gestión</p>
         </div>
 
         <div class="panel-form">
-            
-            <img src="/images/usuario.png" alt="Avatar de Usuario" id="avatar-img"/>
-            
-            <h2>Iniciar Sesión</h2>
-            <p class="subtitle">Ingresa tus credenciales</p>
 
-            <form action="#" method="post"> <div class="input-group">
-                    <label for="username">Usuario</label>
-                    <input type="text" id="username" name="username" placeholder="Tu nombre de usuario" required>
-                </div>
-                
+            <img id="avatar-img" src="/Images/usuario.png" alt="Avatar">
+
+            <h2>Iniciar Sesión</h2>
+            <p class="subtitle">Simulación de roles para la demostración</p>
+
+            <form action="/login" method="post">
+
+                <!-- === SELECTOR === -->
                 <div class="input-group">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" placeholder="Tu contraseña" required>
+                    <label for="rol">Selecciona tu rol:</label>
+                    <select id="rol" name="rol" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+                        <option value="" disabled selected>-- Elegir rol --</option>
+                        <option value="administrador">Administrador</option>
+                        <option value="optometrista">Optometrista</option>
+                        <option value="vendedor">Vendedor</option>
+                        <option value="soporte">Soporte</option>
+                    </select>
                 </div>
-                
+
                 <button type="submit" class="btn-login">Ingresar</button>
-                
-                
+
+                <!-- === MENSAJE DE ERROR === -->
+                <div class="error-msg"
+                     th:if="${param.error}"
+                     th:text="${param.error == 'rol-invalido' ? 'Rol inválido, intenta nuevamente.' : ''}">
+                </div>
+
             </form>
+
         </div>
 
     </div>
 
 </body>
+
 </html>
