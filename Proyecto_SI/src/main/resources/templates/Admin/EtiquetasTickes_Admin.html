@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Configuración de Impresoras | Admin</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/admin/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Configuración de Impresoras</h1>
+    </div>
+
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="openTab('tabTicket')">
+            <i class="fas fa-receipt"></i> Tickets
+        </button>
+        <button class="tab-btn" onclick="openTab('tabEtiqueta')">
+            <i class="fas fa-tags"></i> Etiquetas
+        </button>
+    </div>
+
+
+    <div id="tabTicket" class="tab-content active">
+        <div class="ticket-main-card">
+
+            <div class="ticket-card-header">
+                <span class="ticket-card-title">Propiedades de ticket</span>
+                <div class="printer-status">Conectada <span class="status-dot"></span></div>
+            </div>
+
+            <div class="ticket-grid">
+                <div class="ticket-form-side">
+                    <div class="ticket-row">
+                        <div class="ticket-label">Formato de ticket :</div>
+                        <div class="ticket-input-group">
+                            <input type="text" class="ticket-input" value="Ticket venta" readonly id="inputFormatoDisplay">
+                            <button class="btn-mini-select" id="btnAbrirFormatos"><i class="fas fa-list"></i></button>
+                        </div>
+                    </div>
+                    <div class="ticket-row">
+                        <div class="ticket-label">Cantidad</div>
+                        <input type="number" class="ticket-input" value="2">
+                    </div>
+                    <div class="ticket-row">
+                        <div class="ticket-label">Nombre</div>
+                        <input type="text" class="ticket-input" placeholder="Ejemplo:">
+                    </div>
+                    <div class="ticket-row">
+                        <div class="ticket-label">Corte</div>
+                        <div class="ticket-toggle-container"><button class="btn-toggle active">X</button></div>
+                    </div>
+                    <div class="ticket-row">
+                        <div class="ticket-label">Cajon</div>
+                        <div class="ticket-toggle-container"><button class="btn-toggle active">X</button></div>
+                    </div>
+                    <div class="ticket-row" style="margin-top: 2rem;">
+                        <button id="btnAbrirConfig" class="btn-gear-config">Configurar <i class="fas fa-cog"></i></button>
+                    </div>
+                </div>
+
+                <div class="ticket-preview-side">
+                    <div class="preview-box">
+                        <div class="preview-title">Previsualización de código</div>
+                        <img src="https://via.placeholder.com/150x200?text=TICKET+DEMO" alt="Preview" class="preview-img">
+                        <button class="btn-imprimir-preview">Imprimir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-actions-container">
+            <button id="btnAbrirDigital" class="btn-eliminar-bottom-right" style="background-color: #3b5998;">
+                Enviar ticket digital
+            </button>
+        </div>
+    </div>
+
+
+    <div id="tabEtiqueta" class="tab-content" style="display: none;">
+        <div class="ticket-main-card" style="background-color: #b8cce4;">
+
+            <div class="ticket-card-header">
+                <span class="ticket-card-title">Propiedades de la etiqueta</span>
+                <div class="printer-status" style="background-color: #8fb8e8; padding: 0.3rem 0.8rem; border-radius: 15px; color: white;">
+                    Conectada <span class="status-dot" style="background-color: #28a745; margin-left:5px; border: 1px solid white;"></span>
+                </div>
+            </div>
+
+            <div class="ticket-grid">
+                <div class="ticket-form-side">
+                    <div class="ticket-row">
+                        <div class="ticket-label">Forma de Etiqueta :</div>
+                        <input type="text" class="ticket-input" value="Cola de ratón" readonly style="background-color: white;">
+                    </div>
+                    <div class="ticket-row">
+                        <div class="ticket-label">Máxima calidad</div>
+                        <div class="ticket-toggle-container"><button class="btn-toggle active">X</button></div>
+                    </div>
+                    <div class="ticket-row">
+                        <div class="ticket-label">Cantidad</div>
+                        <input type="number" class="ticket-input" value="100" style="background-color: white;">
+                    </div>
+                    <div class="ticket-row">
+                        <div class="ticket-label">Nombre</div>
+                        <input type="text" class="ticket-input" value="Ejemplo: ModeloXj45" style="background-color: white;">
+                    </div>
+                    <div class="ticket-row">
+                        <div class="ticket-label">Ajustes de tamaño</div>
+                        <input type="text" class="ticket-input" value="63 x 22 mm" style="background-color: white;">
+                    </div>
+
+                    <div class="ticket-row" style="margin-top: 2rem;">
+                        <button id="btnAbrirConfigEtiquetas" class="btn-gear-config">
+                            Configurar <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="ticket-preview-side">
+                    <div class="preview-box" style="background-color: #555;">
+                        <div class="preview-title" style="box-shadow: 0 2px 5px rgba(0,0,0,0.2);">Previsualización de código</div>
+
+                        <div style="background: white; padding: 1rem; margin-bottom: 1.5rem; width: 150px; text-align: center;">
+                            <div style="font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; text-align: left;">ModeloXj45</div>
+                            <div style="height: 40px; background: repeating-linear-gradient(90deg, #000 0px, #000 2px, #fff 2px, #fff 4px); width: 100%;"></div>
+                            <div style="font-size: 0.7rem; margin-top: 2px;">1234567890</div>
+                        </div>
+
+                        <button class="btn-imprimir-preview" style="background-color: #3b4a6b;">
+                            Imprimir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modalConfig" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Configuración</h2>
+                <span class="close-button close-config">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3 class="modal-section-title">Formato de impresión</h3>
+                <div class="config-list">
+                    <div class="config-item"><span>Venta</span><button class="btn-seleccionar">Seleccionar</button></div>
+                    <div class="config-item"><span>Cotización</span><button class="btn-seleccionar">Seleccionar</button></div>
+                    <div class="config-item"><span>Factura CFDI</span><button class="btn-seleccionar">Seleccionar</button></div>
+                    <div class="config-item"><span>Corte de caja</span><button class="btn-seleccionar">Seleccionar</button></div>
+                    <div class="config-item"><span>Nota de credito</span><button class="btn-seleccionar">Seleccionar</button></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action-button btn-limpiar close-config">Cancelar</button>
+                <button class="modal-action-button btn-pedir close-config">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modalFormatos" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Formatos</h2>
+                <span class="close-button close-formatos">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3 class="modal-section-title">Seleccionar formato</h3>
+                <div class="config-list">
+                    <div class="config-item">
+                        <span>Formato 1 EVA</span><i class="fas fa-barcode barcode-icon"></i>
+                        <button class="btn-seleccionar select-fmt" data-name="Formato 1 EVA">Seleccionar</button>
+                    </div>
+                    <div class="config-item">
+                        <span>Formato Lote EVA</span><i class="fas fa-barcode barcode-icon"></i>
+                        <button class="btn-seleccionar select-fmt" data-name="Formato Lote EVA">Seleccionar</button>
+                    </div>
+                    <div class="config-item">
+                        <span>Formato Compra B</span><i class="fas fa-barcode barcode-icon"></i>
+                        <button class="btn-seleccionar select-fmt" data-name="Formato Compra B">Seleccionar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action-button btn-limpiar close-formatos">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modalDigital" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Envio de ticket digital</h2>
+                <span class="close-button close-digital">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3 class="modal-section-title">Datos del cliente</h3>
+                <div class="resurtido-form">
+                    <div class="ticket-row"><div class="ticket-label">Nombre</div><input type="text" class="ticket-input" value="Juanito"></div>
+                    <div class="ticket-row"><div class="ticket-label">Correo</div><input type="email" class="ticket-input" value="correo@gmail.com"></div>
+                    <div class="ticket-row"><div class="ticket-label">Teléfono</div><input type="text" class="ticket-input" value="+52 23434234"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action-button btn-limpiar close-digital">Cancelar</button>
+                <button class="modal-action-button btn-pedir" onclick="alert('Enviado'); document.getElementById('modalDigital').style.display='none';">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modalConfigEtiquetas" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Ajustes de Etiqueta</h2>
+                <span class="close-button close-config-etiquetas">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3 class="modal-section-title">Opciones de impresión</h3>
+                <div class="config-list">
+                    <div class="config-item">
+                        <span>Tipo de Código</span><span style="color:#ccc; font-size:0.8rem; margin-left:auto; margin-right:10px;">Code 128</span>
+                        <button class="btn-seleccionar">Cambiar</button>
+                    </div>
+                    <div class="config-item">
+                        <span>Orientación</span><span style="color:#ccc; font-size:0.8rem; margin-left:auto; margin-right:10px;">Horizontal</span>
+                        <button class="btn-seleccionar">Cambiar</button>
+                    </div>
+                    <div class="config-item">
+                        <span>Densidad</span><span style="color:#ccc; font-size:0.8rem; margin-left:auto; margin-right:10px;">203 DPI</span>
+                        <button class="btn-seleccionar">Cambiar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action-button btn-limpiar close-config-etiquetas">Cancelar</button>
+                <button class="modal-action-button btn-pedir close-config-etiquetas">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- 1. PESTAÑAS ---
+            window.openTab = function(tabName) {
+                document.querySelectorAll('.tab-content').forEach(c => {
+                    c.style.display = 'none';
+                    c.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+                const selected = document.getElementById(tabName);
+                if(selected) {
+                    selected.style.display = 'block';
+                    setTimeout(() => selected.classList.add('active'), 10);
+                }
+
+                const activeBtn = document.querySelector(`.tab-btn[onclick="openTab('${tabName}')"]`);
+                if(activeBtn) activeBtn.classList.add('active');
+            };
+
+            // --- 2. MODALES ---
+            function setupModal(modalId, btnOpenId, closeClass) {
+                const modal = document.getElementById(modalId);
+                const btnOpen = document.getElementById(btnOpenId);
+
+                if (btnOpen && modal) {
+                    btnOpen.addEventListener('click', (e) => { e.preventDefault(); modal.style.display = 'flex'; });
+                }
+                if (modal) {
+                    modal.querySelectorAll('.' + closeClass).forEach(el => {
+                        el.addEventListener('click', () => modal.style.display = 'none');
+                    });
+                    window.addEventListener('click', (e) => { if(e.target == modal) modal.style.display = 'none'; });
+                }
+            }
+
+            setupModal('modalConfig', 'btnAbrirConfig', 'close-config');
+            setupModal('modalFormatos', 'btnAbrirFormatos', 'close-formatos');
+            setupModal('modalDigital', 'btnAbrirDigital', 'close-digital');
+            // El nuevo modal de etiquetas
+            setupModal('modalConfigEtiquetas', 'btnAbrirConfigEtiquetas', 'close-config-etiquetas');
+
+            // Selección de Formato
+            const inputDisplay = document.getElementById('inputFormatoDisplay');
+            document.querySelectorAll('.select-fmt').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if(inputDisplay) inputDisplay.value = this.getAttribute('data-name');
+                    document.getElementById('modalFormatos').style.display = 'none';
+                });
+            });
+        });
+    </script>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Métricas | Admin</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div class="view-header">
+        <a th:href="@{/admin/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Métricas</h1>
+    </div>
+
+    <div class="filters-container">
+        <div class="filter-group-top">
+            <select class="filter-select">
+                <option>Todas las sucursales</option>
+                <option>Matriz</option>
+                <option>Sucursal A</option>
+            </select>
+            <select class="filter-select">
+                <option>Ventas y Ganancias</option>
+                <option>Inventario</option>
+                <option>Rendimiento Personal</option>
+            </select>
+            <input type="date" class="filter-input">
+
+            <button class="filter-button" onclick="window.location.reload()">
+                Actualizar
+            </button>
+        </div>
+    </div>
+
+    <div class="metrics-grid">
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <span>Ventas Totales</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chart-canvas-container">
+                <canvas id="chartVentas"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <span>Ventas por Categoría</span> <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chart-canvas-container">
+                <canvas id="chartPastel"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <span>Promedio por Ticket</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chart-canvas-container">
+                <canvas id="chartTicket"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <span>Formas de Pago</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chart-canvas-container">
+                <canvas id="chartPagos"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card wide-card">
+            <div class="chart-header">
+                <span>Tendencia Mensual</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chart-canvas-container">
+                <canvas id="chartTendencia"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-actions-container">
+        <div class="export-buttons">
+            <button class="btn-actualizar" style="margin-right: 10px;">Actualizar Datos</button>
+            <button class="btn-eliminar-bottom-right" style="background-color: #8fb8e8; border: none;">
+                Exportar <i class="fas fa-caret-down"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Configuración de colores (Tema Azul Lentica)
+            const colorPrimary = '#007bff';
+            const colorDark = '#0c2b4e';
+            const colorLight = '#8fb8e8';
+            const colorGrey = '#e0e0e0';
+
+            // --- 1. Gráfica de Barras (Ventas Totales) ---
+            new Chart(document.getElementById('chartVentas'), {
+                type: 'bar',
+                data: {
+                    labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+                    datasets: [{
+                        label: 'Ventas ($)',
+                        data: [12000, 19000, 3000, 5000],
+                        backgroundColor: [colorPrimary, colorLight, colorPrimary, colorLight],
+                        borderRadius: 5
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // --- 2. Gráfica de Pastel (Categorías) ---
+            new Chart(document.getElementById('chartPastel'), {
+                type: 'pie',
+                data: {
+                    labels: ['Armazones', 'Lentes Contacto', 'Accesorios'],
+                    datasets: [{
+                        data: [60, 25, 15],
+                        backgroundColor: [colorDark, colorPrimary, colorGrey],
+                        borderWidth: 0
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // --- 3. Gráfica de Barras (Ticket Promedio) ---
+            new Chart(document.getElementById('chartTicket'), {
+                type: 'bar',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie'],
+                    datasets: [{
+                        label: 'Ticket Promedio',
+                        data: [1500, 2200, 1800, 1200, 2500],
+                        backgroundColor: 'transparent',
+                        borderColor: colorDark,
+                        borderWidth: 2
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // --- 4. Gráfica de Dona (Formas de Pago) ---
+            new Chart(document.getElementById('chartPagos'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Efectivo', 'Tarjeta', 'Transferencia'],
+                    datasets: [{
+                        data: [40, 35, 25],
+                        backgroundColor: [colorDark, '#ffffff', colorPrimary],
+                        borderColor: colorDark,
+                        borderWidth: 1
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // --- 5. Gráfica de Línea (Tendencia) ---
+            new Chart(document.getElementById('chartTendencia'), {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Tendencia 2025',
+                        data: [10000, 15000, 12000, 18000, 20000, 25000],
+                        borderColor: colorPrimary,
+                        tension: 0.4, // Curvatura de la línea
+                        fill: false
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // Botón de Exportar (Simulación)
+            const btnExport = document.querySelector('.btn-eliminar-bottom-right');
+            if(btnExport) {
+                btnExport.addEventListener('click', () => alert("Generando reporte PDF..."));
+            }
+        });
+    </script>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Pulido | Admin</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/admin/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Pulido</h1>
+    </div>
+
+    <div class="filters-container">
+        <div class="filter-group-top">
+            <select class="filter-select">
+                <option value="">Selecciona sucursal</option>
+                <option value="matriz">Matriz</option>
+                <option value="sucursal-a">Sucursal A</option>
+                <option value="sucursal-b">Sucursal B</option>
+            </select>
+
+            <input type="date" class="filter-input">
+
+            <button class="filter-button">Confirmar</button>
+
+            <button id="btnEditarModo" class="action-button-primary" style="margin-left: 1rem; background-color: #3b5998;">
+                <i class="fas fa-pen"></i> Editar Tabla
+            </button>
+
+            <button id="btnAgregarFila" class="action-button-primary" style="margin-left: 0.5rem; background-color: #08335e; display: none;">
+                <i class="fas fa-plus"></i> Fila
+            </button>
+        </div>
+    </div>
+
+    <div class="table-container table-container-wide">
+        <table id="tablaPulido" class="data-table table-pulido">
+            <thead>
+            <tr>
+                <th class="col-sticky">No. Ticket</th>
+                <th>Armazón</th>
+                <th>Material</th>
+                <th>Bisel</th>
+                <th>Serie</th>
+                <th>Forma pago</th>
+                <th>VT</th>
+                <th>Comisión</th>
+                <th>Meses</th>
+                <th>$ Armazón</th>
+                <th>$ Mica</th>
+                <th>IVA Mica</th>
+                <th>Total Mica</th>
+                <th>Bisel/Tallado</th>
+                <th>IVA Bisel</th>
+                <th>Total Bisel</th>
+                <th>L/C</th>
+                <th>IVA L/C</th>
+                <th>Total L/C</th>
+                <th>Otros gastos</th>
+                <th>IVA Ot. Gt.</th>
+                <th>Kit entrega</th>
+                <th>Total Ot. Gt.</th>
+                <th>Total sin costos</th>
+                <th>Nombre Opt.</th>
+                <th>Con gastos</th>
+                <th>Sin gastos</th>
+                <th>Acción</th> </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="col-sticky">#9901</td>
+                <td>RayBan-55</td>
+                <td>Poly</td>
+                <td>Ranurado</td>
+                <td>S-102</td>
+                <td>Tarjeta</td>
+                <td>$5,000</td>
+                <td>$200</td>
+                <td>3</td>
+                <td>$1,500</td>
+                <td>$800</td>
+                <td>$128</td>
+                <td>$928</td>
+                <td>$300</td>
+                <td>$48</td>
+                <td>$348</td>
+                <td>$0</td>
+                <td>$0</td>
+                <td>$0</td>
+                <td>$50</td>
+                <td>$8</td>
+                <td>Sí</td>
+                <td>$58</td>
+                <td>$2,500</td>
+                <td>Juan P.</td>
+                <td>$1,800</td>
+                <td>$2,200</td>
+                <td><button class="icon-btn-edit"><i class="fas fa-edit"></i></button></td>
+            </tr>
+            <tr>
+                <td class="col-sticky">#9902</td>
+                <td>Vogue-22</td>
+                <td>CR39</td>
+                <td>Completo</td>
+                <td>S-103</td>
+                <td>Efectivo</td>
+                <td>$3,200</td>
+                <td>$150</td>
+                <td>0</td>
+                <td>$1,000</td>
+                <td>$500</td>
+                <td>$80</td>
+                <td>$580</td>
+                <td>$200</td>
+                <td>$32</td>
+                <td>$232</td>
+                <td>$100</td>
+                <td>$16</td>
+                <td>$116</td>
+                <td>$0</td>
+                <td>$0</td>
+                <td>No</td>
+                <td>$0</td>
+                <td>$1,800</td>
+                <td>Ana L.</td>
+                <td>$1,200</td>
+                <td>$1,500</td>
+                <td><button class="icon-btn-edit"><i class="fas fa-edit"></i></button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pulido-summary-container">
+
+        <div class="summary-box">
+            <div class="summary-header header-blue-dark">CON GASTOS</div>
+            <div class="summary-content">
+                <div class="summary-row"><span>Nombre Opt 1</span> <strong>$5,000</strong></div>
+                <div class="summary-row"><span>Nombre Opt 2</span> <strong>$3,200</strong></div>
+                <div class="summary-row"><span>Nombre Opt 3</span> <strong>$1,500</strong></div>
+                <div class="summary-total total-dark">Total: $9,700</div>
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <div class="summary-header header-blue-light">SIN GASTOS</div>
+            <div class="summary-content">
+                <div class="summary-row"><span>Nombre Opt 1</span> <strong>$6,500</strong></div>
+                <div class="summary-row"><span>Nombre Opt 2</span> <strong>$4,000</strong></div>
+                <div class="summary-row"><span>Nombre Opt 3</span> <strong>$2,000</strong></div>
+                <div class="summary-total total-light">Total: $12,500</div>
+            </div>
+        </div>
+
+    </div>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnEditar = document.getElementById('btnEditarModo');
+            const btnAgregar = document.getElementById('btnAgregarFila'); // Referencia al nuevo botón
+            const tabla = document.getElementById('tablaPulido');
+            let esEditable = false;
+
+            // --- 1. Lógica de Modo Edición ---
+            btnEditar.addEventListener('click', function() {
+                esEditable = !esEditable;
+
+                const celdas = tabla.querySelectorAll('tbody td:not(.col-sticky)'); // Todas menos la primera columna
+
+                celdas.forEach(celda => {
+                    celda.setAttribute('contenteditable', esEditable);
+                });
+
+                // Manejo de la columna sticky (Ticket) por separado para que también se pueda editar si quieres
+                const tickets = tabla.querySelectorAll('tbody td.col-sticky');
+                tickets.forEach(t => t.setAttribute('contenteditable', esEditable));
+
+                if (esEditable) {
+                    // MODO ON: Cambiar botón a Guardar y MOSTRAR el botón de agregar
+                    btnEditar.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+                    btnEditar.style.backgroundColor = '#28a745';
+                    tabla.classList.add('modo-edicion');
+
+                    btnAgregar.style.display = 'inline-flex'; // Aparece el botón mágicamente ✨
+                } else {
+                    // MODO OFF: Regresar a normal y OCULTAR el botón de agregar
+                    btnEditar.innerHTML = '<i class="fas fa-pen"></i> Editar Tabla';
+                    btnEditar.style.backgroundColor = '#3b5998';
+                    tabla.classList.remove('modo-edicion');
+
+                    btnAgregar.style.display = 'none'; // Se esconde
+
+                    alert("Cambios guardados visualmente (Filas nuevas incluidas).");
+                }
+            });
+
+            // --- 2. Lógica para Agregar Nueva Fila ---
+            btnAgregar.addEventListener('click', function() {
+                const tbody = tabla.querySelector('tbody');
+                const ultimaFila = tbody.lastElementChild;
+
+                // TRUCO: Clonamos la última fila (true significa clonar con hijos/celdas)
+                const nuevaFila = ultimaFila.cloneNode(true);
+
+                // Limpiamos el contenido de la nueva fila
+                Array.from(nuevaFila.cells).forEach(celda => {
+                    celda.innerText = ''; // Borramos el texto viejo
+
+                    // Si es la celda del botón de editar, le dejamos el botón
+                    if (celda.querySelector('button')) {
+                        celda.innerHTML = '<button class="icon-btn-edit"><i class="fas fa-edit"></i></button>';
+                    }
+
+                    // Aseguramos que sea editable ya que estamos en modo edición
+                    celda.setAttribute('contenteditable', 'true');
+                });
+
+                // Ponerle un placeholder al ticket
+                nuevaFila.querySelector('.col-sticky').innerText = '#Nuevo';
+
+                // Insertar la fila al final
+                tbody.appendChild(nuevaFila);
+
+                // Hacemos scroll automático al fondo para que el usuario vea la nueva fila
+                // (Opcional, pero se ve pro)
+                const container = document.querySelector('.table-container-wide');
+                container.scrollTop = container.scrollHeight;
+            });
+        });
+    </script>
+</main>
+
+</body>
+</html>

@@ -705,3 +705,1495 @@ body {
     color: var(--color-modal-azul-oscuro);
     transform: translateY(-2px);
 }
+
+/* =================================================== */
+/* --- ESTILOS PARA VISTAS DE TABLAS (Historiales) --- */
+/* =================================================== */
+
+/* --- Encabezado de la Vista (Título y Botón Atrás) --- */
+.view-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.back-button {
+    font-size: 1.5rem;
+    color: #0c2b4e; /* Azul oscuro */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+.back-button:hover {
+    color: #007bff; /* Azul primario al pasar el mouse */
+}
+
+.view-header .content-title {
+    margin: 0; /* Quitamos el margen por defecto del h1 */
+    font-size: 2rem;
+}
+
+
+/* --- Contenedor de Filtros y Búsqueda --- */
+.filters-container {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+/* Grupo de filtros superiores (Selects y Botón) */
+.filter-group-top {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap; /* Para que se adapte en móviles */
+}
+
+.filter-select,
+.filter-input {
+    flex: 1; /* Toman el espacio disponible */
+    min-width: 200px;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit; /* Para que el input date use la misma fuente */
+}
+.filter-select:focus,
+.filter-input:focus {
+    border-color: #007bff;
+}
+
+.filter-button {
+    background-color: #0c2b4e; /* Azul oscuro para contraste */
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    min-width: 120px;
+}
+.filter-button:hover {
+    background-color: #0a2340;
+}
+
+/* Barra de Búsqueda */
+.search-bar-container {
+    position: relative;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem; /* Espacio para el icono */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+.search-input:focus {
+    border-color: #007bff;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+
+/* --- Tabla de Datos --- */
+.table-container {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden; /* Para redondear las esquinas de la tabla */
+    overflow-x: auto; /* Scroll horizontal si es necesario */
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+/* Encabezado de la Tabla */
+.data-table thead {
+    background-color: #2C64C5; /* Azul claro del tema */
+    color: #0c2b4e;
+}
+
+.data-table th {
+    padding: 1rem;
+    font-weight: 600;
+    white-space: nowrap; /* Evita que el texto del encabezado se rompa */
+}
+
+/* Cuerpo de la Tabla */
+.data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    color: #555;
+    background-color: rgba(84, 132, 214, 0.47);
+}
+
+/* Efecto cebra para las filas */
+.data-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Efecto hover en las filas */
+.data-table tbody tr:hover {
+    background-color: #f0f4ff;
+}
+
+
+/* --- RESPONSIVIDAD (Adaptación a Móviles) --- */
+@media (max-width: 768px) {
+    .filter-group-top {
+        flex-direction: column; /* Filtros uno debajo del otro */
+    }
+    .filter-button {
+        width: 100%; /* Botón ocupa todo el ancho */
+    }
+
+    /* Ocultar columnas en móviles según tu diseño */
+    .hidden-mobile {
+        display: none;
+    }
+
+    /* Ajustar padding en celdas para móvil */
+    .data-table th,
+    .data-table td {
+        padding: 0.8rem;
+    }
+}
+
+/* =================================================== */
+/* --- ESTILOS PARA AVISOS Y PROMOCIONES --- */
+/* =================================================== */
+
+/* Botón "Nuevo Aviso" (Verde/Azul llamativo) */
+.action-button-primary {
+    background-color: #28a745; /* Verde para acción positiva */
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto; /* Empuja el botón a la derecha en desktop */
+    transition: background-color 0.2s;
+}
+.action-button-primary:hover {
+    background-color: #218838;
+}
+
+/* Ajuste para formularios en línea dentro del modal */
+.form-row-split {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+/* En móvil, que se pongan uno abajo del otro */
+@media (max-width: 600px) {
+    .form-row-split {
+        flex-direction: column;
+        gap: 0;
+    }
+    .action-button-primary {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 1rem;
+        justify-content: center;
+    }
+}
+
+/* Botón de borrar en la tabla (Basurero) */
+.icon-btn-delete {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+.icon-btn-delete:hover {
+    background-color: #fce8e8;
+}
+
+/* Anchos de columnas específicos para esta tabla */
+.col-promo { width: 20%; font-weight: 600; color: #007bff; }
+.col-fecha { width: 15%; }
+.col-desc  { width: 40%; } /* Descripción más ancha */
+.col-accion{ width: 10%; text-align: center; }
+
+/* Ajuste para el textarea del modal */
+textarea.modal-input {
+    resize: vertical; /* Permite estirar hacia abajo */
+    font-family: 'Poppins', sans-serif;
+}
+
+/* =================================================== */
+/* --- ESTILOS PARA INVENTARIO SUCURSAL --- */
+/* =================================================== */
+
+/* Contenedor de filtros distribuido (Izq: Filtros, Der: Botón) */
+.filter-row-distributed {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.filter-left {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+.search-bar-compact {
+    position: relative;
+    min-width: 250px;
+}
+.search-bar-compact .search-input {
+    width: 100%;
+    padding-left: 2.5rem;
+}
+.search-bar-compact .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+/* Botón "Actualizar Productos" (Azul Oscuro) */
+.btn-actualizar {
+    background-color: #3b5998; /* Azul similar a tu imagen */
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-actualizar:hover {
+    background-color: #2d4373;
+}
+
+/* Tabla Específica */
+.table-sucursal th {
+    background-color: #587099; /* Azul grisáceo de tu imagen */
+    color: white;
+    font-size: 0.9rem;
+    text-align: center;
+}
+.table-sucursal td {
+    text-align: center;
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+/* Botón "Editar" dentro de la fila */
+.btn-editar-row {
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.btn-editar-row:hover {
+    background-color: #2d4373;
+}
+
+/* Contenedor y Botón Eliminar (Abajo Derecha) */
+.bottom-actions-container {
+    display: flex;
+    justify-content: flex-end; /* Alineado a la derecha */
+    margin-top: 1.5rem;
+}
+
+.btn-eliminar-bottom-right {
+    background-color: #3b5998; /* Mismo azul que los otros */
+    color: white;
+    border: none;
+    padding: 0.8rem 3rem; /* Ancho como en la imagen */
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.btn-eliminar-bottom-right:hover {
+    background-color: #2d4373;
+}
+
+/* Anchos de columna */
+.col-check { width: 5%; }
+.col-etiqueta { width: 10%; }
+.col-cant { width: 8%; font-weight: bold; }
+.col-prod { width: 15%; font-weight: 600; color: #007bff; }
+.col-stock { width: 10%; color: #666; font-style: italic; } /* En Almacen */
+.col-desc { width: 25%; text-align: left !important; }
+.col-precio { width: 10%; font-weight: bold; }
+.col-accion { width: 10%; }
+
+/* Inputs de solo lectura en el modal */
+.modal-input.read-only {
+    background-color: #1f293a; /* Un poco más oscuro que el fondo normal */
+    color: #a0aec0; /* Texto grisáceo */
+    border-color: #2d3748;
+    cursor: not-allowed;
+}
+/* =================================================== */
+/* --- ESTILOS PARA VISTA PULIDO (Sábana de Datos) --- */
+/* =================================================== */
+
+/* Contenedor con Scroll Horizontal */
+.table-container-wide {
+    overflow-x: auto; /* Activa el scroll si la tabla es muy ancha */
+    max-width: 100%;
+    border: 1px solid #ddd;
+}
+
+.table-pulido {
+    min-width: 2000px; /* Forzamos a que sea ancha para que se vea bien */
+}
+
+/* Celdas que no deben romper línea */
+.table-pulido th,
+.table-pulido td {
+    white-space: nowrap; /* Esto es clave: evita que el texto se amontone */
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem; /* Letra un poco más chica para que quepa más */
+}
+
+/* --- Columna Sticky (La Magia) --- */
+/* Hace que la primera columna (Ticket) se quede fija al scrollear */
+.table-pulido .col-sticky {
+    position: sticky;
+    left: 0;
+    background-color: #f4f7f6; /* Color de fondo para tapar lo que pasa por abajo */
+    z-index: 2; /* Por encima de las otras celdas */
+    border-right: 2px solid #dcebf7; /* Borde para separar visualmente */
+    font-weight: bold;
+    color: #007bff;
+}
+.table-pulido thead .col-sticky {
+    background-color: #8fb8e8; /* Mismo color del header */
+    z-index: 3; /* El header fijo debe estar aún más arriba */
+}
+
+
+/* --- Tablas de Resumen Inferior --- */
+.pulido-summary-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.summary-box {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden; /* Para los bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-width: 250px;
+    text-align: center;
+}
+
+.summary-header {
+    padding: 0.8rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header-blue-dark { background-color: #3b5998; }
+.header-blue-light { background-color: #8fb8e8; }
+
+.summary-content {
+    padding: 1rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.summary-total {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+.total-dark { color: #3b5998; }
+.total-light { color: #659ad2; }
+
+/* Botón pequeño de edición en la tabla */
+.icon-btn-edit {
+    background: none;
+    border: none;
+    color: #3b5998;
+    cursor: pointer;
+}
+.icon-btn-edit:hover { color: #007bff; }
+
+/* Cuando la tabla está en modo edición */
+.modo-edicion td[contenteditable="true"] {
+    background-color: #fff;
+    border: 1px solid #007bff; /* Borde azulito para indicar "escribe aquí" */
+    cursor: text;
+}
+.modo-edicion td[contenteditable="true"]:focus {
+    outline: 2px solid #007bff;
+    background-color: #eef6ff;
+}
+
+/* =================================================== */
+/* --- ESTILOS PARA VISTA MÉTRICAS --- */
+/* =================================================== */
+
+.metrics-grid {
+    display: grid;
+    /* Crea columnas automáticas de mínimo 300px */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.chart-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    /* Altura fija para que todas se vean parejas */
+    height: 300px;
+}
+
+/* Clase para que la gráfica de Tendencia ocupe 2 espacios en pantallas grandes */
+@media (min-width: 768px) {
+    .wide-card {
+        grid-column: span 2;
+    }
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    background-color: #3b5998; /* Fondo azul oscuro para el título */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.chart-canvas-container {
+    flex: 1; /* Ocupa el resto del espacio */
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Contenedor de botones de exportar */
+.export-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    width: 100%;
+}
+
+/* =================================================== */
+/* --- ESTILOS PARA NOTAS DE PROVEEDORES --- */
+/* =================================================== */
+
+/* Contenedor Azul Grande (Fondo de la galería) */
+.notes-blue-container {
+    background-color: #a1c4fd; /* Azul suave similar a tu imagen */
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
+    min-height: 400px;
+}
+
+/* Grid de Imágenes (Galería) */
+.notes-grid {
+    display: grid;
+    /* Columnas automáticas: mínimo 150px de ancho cada una */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Tarjeta de cada Nota */
+.note-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+.note-card:hover {
+    transform: scale(1.03); /* Efecto zoom al pasar mouse */
+}
+
+.note-img {
+    width: 100%;
+    height: 200px; /* Altura fija para uniformidad */
+    object-fit: cover; /* Recorta la imagen para llenar el cuadro sin deformar */
+    display: block;
+}
+
+.note-caption {
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 600;
+    background-color: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+
+
+/* --- MODAL LIGHTBOX (Zoom de imagen) --- */
+.modal-lightbox {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 2000; /* Muy arriba */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Fondo negro casi opaco */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 80vh;
+    border: 2px solid white;
+    border-radius: 5px;
+    animation: zoomIn 0.3s;
+}
+
+#captionGrande {
+    margin: 10px auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    font-size: 1.2rem;
+}
+
+.close-lightbox {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.close-lightbox:hover,
+.close-lightbox:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@keyframes zoomIn {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+/* =================================================== */
+/* --- ESTILOS PARA CIERRE DE DÍA --- */
+/* =================================================== */
+
+/* Fecha Actual en el header */
+.date-display {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Contenedor Azul Principal */
+.cierre-blue-card {
+    background-color: #a1c4fd; /* Azul claro (Base) */
+    /* O si prefieres el tono más grisáceo de la imagen: #b0c4de */
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+/* Grid de dos columnas */
+.cierre-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Mitad y mitad */
+    gap: 3rem; /* Espacio amplio entre columnas */
+}
+@media (max-width: 768px) {
+    .cierre-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+
+/* Filas de Input (Pastilla + Input) */
+.input-row-cierre {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+/* Etiquetas tipo "Pastilla" */
+.label-capsule {
+    background-color: #5c8bd6; /* Azul medio */
+    color: white;
+    padding: 0.7rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    flex: 1; /* Ocupa espacio disponible */
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    white-space: nowrap;
+}
+
+.capsule-light {
+    background-color: #7da8db; /* Un azul un poquito más claro para los bancos */
+}
+
+/* Wrapper para el input con símbolo de pesos */
+.input-wrapper {
+    position: relative;
+    width: 160px; /* Ancho fijo para los inputs */
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.cierre-input {
+    width: 100%;
+    background-color: #3b5998; /* Azul oscuro de fondo del input */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.7rem 1rem 0.7rem 1.5rem; /* Padding izq extra para el signo $ */
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: right; /* Números a la derecha */
+    box-sizing: border-box;
+}
+/* Estilo cuando está deshabilitado */
+.cierre-input:disabled,
+.cierre-textarea:disabled {
+    background-color: #3b5998;
+    opacity: 0.8;
+    color: #ddd;
+}
+/* Estilo cuando se puede editar */
+.cierre-input:enabled {
+    background-color: #2d4373; /* Un poco más oscuro al editar */
+    box-shadow: 0 0 0 2px #fff inset;
+}
+
+/* Título de sección derecha */
+.bank-section-title {
+    text-align: right;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+/* Área de Comentarios */
+.comments-section {
+    margin-top: 2rem;
+}
+.cierre-textarea {
+    width: 100%;
+    background-color: #6fa0e0; /* Azul intermedio */
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 1rem;
+    font-family: inherit;
+    resize: none;
+    box-sizing: border-box;
+}
+.cierre-textarea::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+/* =================================================== */
+/* --- ESTILOS PARA REPORTES --- */
+/* =================================================== */
+
+/* Botón Exportar tipo "Pastilla" (Pill) */
+.btn-exportar-pill {
+    background-color: #8fb8e8; /* Azul claro según tu diseño */
+    color: #0c2b4e; /* Texto oscuro */
+    border: none;
+    padding: 0.6rem 2rem;
+    border-radius: 20px; /* Muy redondeado */
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.2s;
+}
+
+.btn-exportar-pill:hover {
+    background-color: #7da8db;
+}
+
+/* Ajuste de columnas para esta tabla específica */
+.col-ticket { width: 15%; font-weight: bold; }
+.col-cliente { width: 35%; }
+.col-sucursal { width: 20%; }
+.col-fecha { width: 15%; }
+.col-total { width: 15%; font-weight: bold; color: #007bff; }
+
+/* =================================================== */
+/* --- ESTILOS PARA SALDOS Y ESTATUS --- */
+/* =================================================== */
+
+/* Badges de Estatus (Las pastillas de colores) */
+.status-badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    min-width: 90px;
+}
+
+/* Colores específicos solicitados */
+.status-rosa {
+    background-color: #e83e8c; /* Rosa fuerte */
+}
+.status-amarillo {
+    background-color: #ffc107; /* Amarillo */
+    color: #333; /* Texto oscuro para que se lea */
+}
+.status-verde {
+    background-color: #28a745; /* Verde */
+}
+.status-azul {
+    background-color: #007bff; /* Azul */
+}
+
+
+/* =================================================== */
+/* --- VISTA MÓVIL TIPO TARJETA (Responsive Cards) --- */
+/* =================================================== */
+
+@media (max-width: 768px) {
+
+    /* 1. Forzamos a la tabla a dejar de ser tabla */
+    .table-responsive-cards,
+    .table-responsive-cards thead,
+    .table-responsive-cards tbody,
+    .table-responsive-cards th,
+    .table-responsive-cards td,
+    .table-responsive-cards tr {
+        display: block;
+    }
+
+    /* 2. Ocultamos los encabezados de la tabla (Ticket, Fecha...) */
+    .table-responsive-cards thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    /* 3. Estilizamos cada FILA como una TARJETA */
+    .table-responsive-cards tr {
+        background-color: white;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        border: 1px solid #eee;
+        padding: 1rem;
+    }
+
+    /* 4. Estilizamos cada CELDA para que parezca un renglón */
+    .table-responsive-cards td {
+        border: none;
+        border-bottom: 1px solid #f0f0f0;
+        position: relative;
+        padding-left: 50% !important; /* Espacio para la etiqueta */
+        text-align: right; /* El valor va a la derecha */
+        padding-top: 0.8rem;
+        padding-bottom: 0.8rem;
+    }
+
+    .table-responsive-cards td:last-child {
+        border-bottom: none;
+    }
+
+    /* 5. EL TRUCO: Usamos 'data-label' para poner el título a la izquierda */
+    .table-responsive-cards td::before {
+        content: attr(data-label); /* Jala el texto del HTML */
+        position: absolute;
+        left: 0;
+        width: 45%;
+        padding-left: 1rem;
+        font-weight: 700;
+        text-align: left;
+        color: #0c2b4e;
+        /* Estilo de pastilla azul como tu imagen mobile */
+        background-color: #eef4fc;
+        border-radius: 0 10px 10px 0;
+        top: 50%;
+        transform: translateY(-50%);
+        padding-top: 0.4rem;
+        padding-bottom: 0.4rem;
+        font-size: 0.85rem;
+    }
+
+    /* Ajuste para el badge en móvil */
+    .table-responsive-cards td .status-badge {
+        width: 100%;
+    }
+}
+
+/* =================================================== */
+/* --- ESTILOS PARA HORARIOS Y POSICIONES --- */
+/* =================================================== */
+
+/* Estilos para el avatar en la tabla */
+.user-info-table {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+.mini-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Badges para los Roles */
+.badge-role {
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+.role-vendedor { background-color: #17a2b8; } /* Cyan */
+.role-opto { background-color: #6610f2; } /* Morado */
+.role-soporte { background-color: #fd7e14; } /* Naranja */
+
+
+/* --- TRANSFORMACIÓN MÓVIL (Estilo Wireframe) --- */
+@media (max-width: 768px) {
+
+    /* 1. Convertir tabla en bloques */
+    .table-horarios,
+    .table-horarios tbody,
+    .table-horarios tr,
+    .table-horarios td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .table-horarios thead {
+        display: none; /* Adiós encabezados */
+    }
+
+    .table-horarios tr {
+        background-color: #dbeafe; /* Fondo azul muy claro (como el cuerpo de tu tarjeta) */
+        margin-bottom: 1.5rem;
+        border-radius: 20px; /* Bordes redondeados de la tarjeta completa */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        overflow: hidden; /* Para que las esquinas no se salgan */
+    }
+
+    /* 2. LA CABEZA DE LA TARJETA (El Empleado) */
+    .table-horarios td.col-sticky {
+        background-color: #3b5998; /* Azul fuerte del encabezado */
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        border-radius: 20px 20px 0 0; /* Redondeado solo arriba? No, en tu diseño parece ser un botón aparte */
+        /* Vamos a hacerlo estilo "Botón Empleado" */
+        border-radius: 20px;
+        margin: 10px; /* Un poco de margen para que parezca flotante */
+        width: auto;
+        position: static; /* Ya no es sticky en móvil */
+    }
+
+    .table-horarios .user-info-table {
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    /* 3. EL CUERPO (Los días) */
+    .table-horarios td:not(.col-sticky) {
+        background-color: transparent; /* Hereda el azul claro del TR */
+        border-bottom: none;
+        padding: 0.5rem 1.5rem;
+        text-align: left;
+        font-size: 0.95rem;
+        color: #333;
+        display: flex;
+        justify-content: space-between; /* Separa etiqueta y valor */
+    }
+
+    /* Usamos data-label para poner "Lunes", "Martes" a la izquierda */
+    .table-horarios td:not(.col-sticky)::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: #555;
+        margin-right: 1rem;
+    }
+
+    /* Última celda redondeada abajo */
+    .table-horarios td:last-child {
+        padding-bottom: 1.5rem;
+    }
+}
+
+/* =================================================== */
+/* --- ESTILOS ESTADO CUENTA PROVEEDORES --- */
+/* =================================================== */
+
+/* Barra de Totales Inferior */
+.totals-bar {
+    background-color: #7da8db; /* Azul grisáceo según imagen */
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-around; /* Distribuye los totales */
+    align-items: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    /* Si la tabla tiene bordes redondeados abajo, esto asegura que la barra también */
+    border-radius: 0 0 12px 12px;
+}
+
+.total-item {
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Botón para ver imagen */
+.icon-btn-view {
+    background: none;
+    border: 1px solid #3b5998;
+    color: #3b5998;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+.icon-btn-view:hover {
+    background-color: #3b5998;
+    color: white;
+}
+
+
+/* RESPONSIVIDAD PARA LA BARRA DE TOTALES */
+@media (max-width: 768px) {
+    .totals-bar {
+        flex-direction: column; /* En móvil, uno abajo del otro */
+        gap: 0.8rem;
+        text-align: center;
+        border-radius: 12px; /* Redondeado completo en móvil si se separa */
+        margin-top: 1rem;
+    }
+}
+
+/* =================================================== */
+/* --- ESTILOS PARA VENTAS (QUINCENALES) --- */
+/* =================================================== */
+
+.section-subtitle {
+    color: #3b5998;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+    padding-left: 0.5rem;
+    border-left: 4px solid #3b5998;
+}
+
+/* Tabla específica de Ventas */
+.table-ventas {
+    min-width: 1200px; /* Forzar ancho para scroll */
+}
+
+/* Encabezado Azul Fuerte (Fila 1) */
+.table-ventas .header-row-blue th {
+    background-color: #3b5998; /* Azul Oscuro */
+    color: white;
+    border: 1px solid #4a69a5;
+}
+
+/* Encabezado Días (Fila 2) */
+.table-ventas .header-row-days th {
+    background-color: #8fb8e8; /* Azul Claro */
+    color: #0c2b4e;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0.5rem;
+    min-width: 50px;
+}
+
+/* Celdas de dinero */
+.table-ventas td {
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+/* Columna Sticky (Nombre Optometrista) */
+.table-ventas .col-sticky {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background-color: #f9f9f9;
+    border-right: 2px solid #ddd;
+    font-weight: 600;
+    color: #3b5998;
+    text-align: left;
+    min-width: 150px;
+}
+.table-ventas .header-row-blue .col-sticky {
+    background-color: #3b5998; /* Coincide con header */
+    color: white;
+    z-index: 3;
+}
+.table-ventas .header-row-days .col-sticky {
+    background-color: #8fb8e8; /* Coincide con subheader */
+    color: #0c2b4e;
+    z-index: 3;
+}
+
+/* Totales */
+.col-total-row {
+    font-weight: bold;
+    background-color: #eef4fc;
+}
+
+.total-label {
+    text-align: right;
+    padding-right: 1rem;
+    background-color: #3b5998 !important; /* Fondo azul en footer sticky */
+    color: white !important;
+}
+
+.grand-total {
+    background-color: #3b5998;
+    color: white;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* =================================================== */
+/* --- ESTILOS CONFIGURACIÓN DE TICKET --- */
+/* =================================================== */
+
+/* Tarjeta Principal Azul Claro */
+.ticket-main-card {
+    background-color: #a1c4fd; /* Azul base */
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Header dentro de la tarjeta */
+.ticket-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.ticket-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.printer-status {
+    font-size: 0.9rem;
+    color: #28a745; /* Verde */
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #28a745;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Grid del contenido (Formulario vs Preview) */
+
+/* Corrección del cuadro gris de la derecha */
+.ticket-preview-side {
+    width: 100%; /* Que ocupe todo su espacio disponible */
+    min-width: 0; /* Truco para evitar desbordes en Grid */
+}
+
+.ticket-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+    gap: 2rem; /* Espacio entre ellas */
+    align-items: start; /* Alineación arriba */
+    width: 100%;
+}
+@media (max-width: 768px) {
+    .ticket-grid { grid-template-columns: 1fr; }
+}
+
+/* Estilos del Formulario (Filas) */
+.ticket-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.ticket-label {
+    background-color: #3b5998; /* Azul Oscuro */
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 20px;
+    min-width: 100px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.ticket-input-group {
+    flex: 1;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.ticket-input {
+    flex: 1;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+.ticket-input:focus { outline: 2px solid #3b5998; }
+
+.btn-mini-select {
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    width: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Botón Toggle (Simulado con X) */
+.btn-toggle {
+    background-color: #fff;
+    color: #aaa;
+    border: none;
+    width: 40px;
+    height: 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Botón Configurar (Engrane) */
+.btn-gear-config {
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Lado Derecho: Preview */
+.preview-box {
+    background-color: #8e9ebf;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* IMPORTANTE: Para que no se salga */
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%; /* Para llenar la altura */
+    min-height: 400px; /* Altura mínima para que se vea bien */
+}
+
+.preview-title {
+    background-color: white;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    width: 80%;
+}
+
+.preview-img {
+    width: 120px;
+    height: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid #fff;
+    background-color: #fff; /* Para que parezca papel */
+}
+
+.btn-imprimir-preview {
+    background-color: #3b4a6b;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 80%;
+}
+
+/* --- ESTILOS PARA LISTAS DE LOS MODALES --- */
+.modal-section-title {
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.config-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.config-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255,255,255,0.1); /* Transparencia */
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+}
+
+.barcode-icon {
+    font-size: 1.5rem;
+    margin: 0 1rem;
+    opacity: 0.8;
+}
+
+.btn-seleccionar {
+    background-color: #fff;
+    color: #3b5998;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-seleccionar:hover {
+    background-color: #eee;
+}
+
+/* =================================================== */
+/* --- ESTILOS DE PESTAÑAS (TABS) --- */
+/* =================================================== */
+
+.tabs-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #888;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-btn:hover {
+    color: #3b5998;
+    background-color: #f0f4ff;
+}
+
+.tab-btn.active {
+    color: #3b5998; /* Azul activo */
+    border-bottom: 3px solid #3b5998;
+    background-color: transparent;
+}
+
+/* Animación suave al cambiar */
+.tab-content {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+.tab-content.active {
+    opacity: 1;
+}
+
+/* =================================================== */
+/* --- ESTILOS PRODUCTOS ALMACÉN Y SUS MODALES --- */
+/* =================================================== */
+
+/* Encabezado de la lista dentro del modal */
+.modal-list-header {
+    display: flex;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+.modal-list-header span {
+    flex: 1;
+    text-align: center;
+}
+
+/* Contenedor con scroll para los ítems */
+.modal-scroll-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 5px; /* Espacio para scrollbar */
+}
+
+/* Fila de la lista (Estilo "Pastilla Azul" de tu imagen) */
+.modal-list-item {
+    display: flex;
+    align-items: center;
+    background-color: #5c8bd6; /* Azul medio/claro */
+    color: white;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.modal-list-item span {
+    flex: 1;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Botón Eliminar chiquito dentro del modal */
+.btn-modal-eliminar {
+    background-color: #2d4373; /* Azul oscuro */
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.2s;
+}
+.btn-modal-eliminar:hover {
+    background-color: #1a2b4d;
+}
+
+/* Ajuste para el botón "Editar" en la tabla principal */
+.btn-editar-row {
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    padding: 0.4rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}

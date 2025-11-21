@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Productos en Sucursal | Admin</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/admin/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Productos Sucursal</h1>
+    </div>
+
+    <div class="filters-container">
+        <div class="filter-row-distributed">
+
+            <div class="filter-left">
+                <select class="filter-select">
+                    <option value="">Selecciona sucursal</option>
+                    <option value="matriz">Matriz</option>
+                    <option value="sucursal-a">Sucursal A</option>
+                    <option value="sucursal-b">Sucursal B</option>
+                </select>
+
+                <div class="search-bar-compact">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Buscar por nombre o etiqueta">
+                </div>
+            </div>
+
+            <button id="btnActualizarProductos" class="btn-actualizar">
+                Actualizar Productos
+            </button>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="data-table table-sucursal">
+            <thead>
+            <tr>
+                <th class="col-check"><input type="checkbox" id="selectAll"></th>
+                <th class="col-etiqueta">No. Etiqueta</th>
+                <th class="col-cant">Cant.</th>
+                <th class="col-prod">Producto</th>
+                <th class="col-stock">En Almacén</th> <th class="col-desc hidden-mobile">Descripción</th>
+                <th class="col-fecha hidden-mobile">Fecha</th>
+                <th class="col-precio">Precio Venta</th>
+                <th class="col-accion">Acción</th>
+            </tr>
+            </thead>
+            <tbody id="inventoryTableBody">
+            <tr>
+                <td class="col-check"><input type="checkbox" class="row-check"></td>
+                <td class="col-etiqueta">ET-001</td>
+                <td class="col-cant">4</td>
+                <td class="col-prod">LENTICA T1</td>
+                <td class="col-stock">50</td>
+                <td class="col-desc hidden-mobile">Armazón Titanio Negro</td>
+                <td class="col-fecha hidden-mobile">20/11/2025</td>
+                <td class="col-precio">$1,200</td>
+                <td class="col-accion">
+                    <button class="btn-editar-row">Editar</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-check"><input type="checkbox" class="row-check"></td>
+                <td class="col-etiqueta">ET-002</td>
+                <td class="col-cant">2</td>
+                <td class="col-prod">LENTICA T2</td>
+                <td class="col-stock">15</td>
+                <td class="col-desc hidden-mobile">Armazón Acetato Rojo</td>
+                <td class="col-fecha hidden-mobile">19/11/2025</td>
+                <td class="col-precio">$1,450</td>
+                <td class="col-accion">
+                    <button class="btn-editar-row">Editar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bottom-actions-container">
+        <button id="btnEliminarMasivo" class="btn-eliminar-bottom-right">
+            Eliminar
+        </button>
+    </div>
+
+
+    <div id="traspasoModal" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Traer de Almacén</h2>
+                <span class="close-button">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle" style="color:white;">Selecciona productos del Inventario General para moverlos a esta sucursal.</p>
+
+                <div class="resurtido-form">
+                    <div class="form-group">
+                        <label class="input-label">Producto (En Almacén)</label>
+                        <select id="productoAlmacen" class="modal-select">
+                            <option value="">Selecciona...</option>
+                            <option value="LENTICA T1">LENTICA T1 (Stock: 50)</option>
+                            <option value="LENTICA T2">LENTICA T2 (Stock: 15)</option>
+                            <option value="RAY-BAN RX">RAY-BAN RX (Stock: 8)</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-group-small">
+                        <label class="input-label">Cantidad a Mover</label>
+                        <input type="number" id="cantidadMover" class="modal-input" value="1" min="1">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action-button" id="btnConfirmarTraspaso">
+                    <i class="fas fa-exchange-alt"></i> Mover a Sucursal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editarProductoModal" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Editar Producto en Sucursal</h2>
+                <span class="close-button close-edit">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="resurtido-form">
+
+                    <div class="form-group">
+                        <label class="input-label">Producto</label>
+                        <input type="text" id="editNombre" class="modal-input read-only" readonly>
+                    </div>
+                    <div class="form-group form-group-small">
+                        <label class="input-label">Etiqueta</label>
+                        <input type="text" id="editEtiqueta" class="modal-input read-only" readonly>
+                    </div>
+
+                    <div class="form-row-split">
+                        <div class="form-group">
+                            <label class="input-label">Cantidad (Ajuste)</label>
+                            <input type="number" id="editCantidad" class="modal-input" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="input-label">Precio Venta ($)</label>
+                            <input type="number" id="editPrecio" class="modal-input" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action-button" id="btnGuardarCambios">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        // --- LÓGICA DEL MODAL EDITAR ---
+        const modalEdit = document.getElementById('editarProductoModal');
+        const btnCerrarEdit = modalEdit.querySelector('.close-edit');
+        const btnGuardarEdit = document.getElementById('btnGuardarCambios');
+
+        // Inputs del modal
+        const inputNombre = document.getElementById('editNombre');
+        const inputEtiqueta = document.getElementById('editEtiqueta');
+        const inputCantidad = document.getElementById('editCantidad');
+        const inputPrecio = document.getElementById('editPrecio');
+
+        let currentRow = null; // Variable para recordar qué fila estamos editando
+
+        // Función para abrir modal y cargar datos
+        function abrirEditar(btn) {
+            currentRow = btn.closest('tr'); // Encontramos la fila padre
+
+            // Extraemos datos de la fila
+            const etiqueta = currentRow.querySelector('.col-etiqueta').innerText;
+            const cantidad = currentRow.querySelector('.col-cant').innerText;
+            const nombre = currentRow.querySelector('.col-prod').innerText;
+            let precio = currentRow.querySelector('.col-precio').innerText;
+
+            // Limpiamos el precio (quitamos el signo $)
+            precio = precio.replace('$', '').replace(',', '').trim();
+
+            // Llenamos el modal
+            inputEtiqueta.value = etiqueta;
+            inputNombre.value = nombre;
+            inputCantidad.value = cantidad;
+            inputPrecio.value = precio;
+
+            modalEdit.style.display = 'flex';
+        }
+
+        // Asignar evento a botones existentes
+        document.querySelectorAll('.btn-editar-row').forEach(btn => {
+            btn.addEventListener('click', function() {
+                abrirEditar(this);
+            });
+        });
+
+        // Cerrar Modal
+        btnCerrarEdit.addEventListener('click', () => modalEdit.style.display = 'none');
+        window.addEventListener('click', (e) => { if(e.target == modalEdit) modalEdit.style.display = 'none'; });
+
+        // Guardar Cambios
+        btnGuardarEdit.addEventListener('click', function() {
+            if(currentRow) {
+                // Validar
+                if(inputCantidad.value < 0 || inputPrecio.value < 0) {
+                    alert("No puedes poner valores negativos.");
+                    return;
+                }
+
+                // Actualizar la tabla visualmente
+                currentRow.querySelector('.col-cant').innerText = inputCantidad.value;
+                currentRow.querySelector('.col-precio').innerText = '$' + parseFloat(inputPrecio.value).toLocaleString('en-US', {minimumFractionDigits: 2});
+
+                alert("Producto actualizado correctamente.");
+                modalEdit.style.display = 'none';
+            }
+        });
+    </script>
+
+</main>
+</body>
+</html>

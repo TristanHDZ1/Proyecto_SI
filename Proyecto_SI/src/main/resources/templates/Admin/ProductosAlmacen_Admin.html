@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Productos Almacén | Admin</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/admin/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Productos Almacén</h1>
+    </div>
+
+    <div class="filters-container">
+        <div class="filter-row-distributed">
+
+            <div class="filter-left" style="flex-direction: column; gap: 0.5rem;">
+                <select class="filter-select" style="width: 100%; max-width: 300px;">
+                    <option value="">Selecciona sucursal</option>
+                    <option value="almacen">Almacén Central</option>
+                </select>
+
+                <div class="search-bar-compact" style="width: 100%; max-width: 300px;">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Buscar por nombre o número de etiqueta">
+                </div>
+            </div>
+
+            <div class="filter-right" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <button class="action-button-primary" style="background-color: #3b5998; width: 220px;">
+                    Escanear Producto
+                </button>
+                <button id="btnAbrirEnviar" class="action-button-primary" style="background-color: #3b5998; width: 220px;">
+                    Enviar productos a Sucursal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table id="tablaAlmacen" class="data-table table-responsive-cards">
+            <thead>
+            <tr>
+                <th class="col-check"><input type="checkbox" id="selectAll"></th>
+                <th>Número de etiqueta</th>
+                <th>Cantidad</th>
+                <th>Producto</th>
+                <th>En Stock</th>
+                <th class="hidden-mobile">Descripción</th>
+                <th class="hidden-mobile">Fecha</th>
+                <th>Precio de venta</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="col-check"><input type="checkbox" class="row-check"></td>
+                <td data-label="Etiqueta">LENT-001</td>
+                <td data-label="Cantidad">50</td>
+                <td data-label="Producto">Modelo XJ45</td>
+                <td data-label="Stock">50</td>
+                <td data-label="Desc" class="hidden-mobile">Pasta negra</td>
+                <td data-label="Fecha" class="hidden-mobile">20/11/25</td>
+                <td data-label="Precio">$1,200</td>
+                <td data-label="Acción"><button class="btn-editar-row">Editar</button></td>
+            </tr>
+            <tr>
+                <td class="col-check"><input type="checkbox" class="row-check"></td>
+                <td data-label="Etiqueta">LENT-002</td>
+                <td data-label="Cantidad">20</td>
+                <td data-label="Producto">RayBan Aviator</td>
+                <td data-label="Stock">20</td>
+                <td data-label="Desc" class="hidden-mobile">Metal dorado</td>
+                <td data-label="Fecha" class="hidden-mobile">19/11/25</td>
+                <td data-label="Precio">$2,500</td>
+                <td data-label="Acción"><button class="btn-editar-row">Editar</button></td>
+            </tr>
+            <tr>
+                <td class="col-check"><input type="checkbox" class="row-check"></td>
+                <td data-label="Etiqueta">LENT-003</td>
+                <td data-label="Cantidad">100</td>
+                <td data-label="Producto">Estuche Básico</td>
+                <td data-label="Stock">100</td>
+                <td data-label="Desc" class="hidden-mobile">Plástico</td>
+                <td data-label="Fecha" class="hidden-mobile">15/11/25</td>
+                <td data-label="Precio">$50</td>
+                <td data-label="Acción"><button class="btn-editar-row">Editar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bottom-actions-container">
+        <button id="btnAbrirImprimir" class="btn-eliminar-bottom-right" style="background-color: #3b5998; margin-right: 1rem;">
+            Imprimir Etiqueta
+        </button>
+        <button class="btn-eliminar-bottom-right" onclick="alert('Eliminando seleccionados...')">
+            Eliminar
+        </button>
+    </div>
+
+
+    <div id="modalEnviar" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Enviar Productos a Sucursal</h2>
+                <span class="close-button close-enviar">&times;</span>
+            </div>
+            <div class="modal-body">
+
+                <div class="modal-list-header">
+                    <span>Cantidad</span>
+                    <span>Producto</span>
+                    <span>Sucursal</span>
+                    <span></span> </div>
+
+                <div class="modal-scroll-list" id="listaEnvios">
+                    <div class="modal-list-item">
+                        <span>10</span>
+                        <span>Modelo XJ45</span>
+                        <span>Matriz</span>
+                        <button class="btn-modal-eliminar">Eliminar</button>
+                    </div>
+                    <div class="modal-list-item">
+                        <span>5</span>
+                        <span>RayBan Av.</span>
+                        <span>Sucursal A</span>
+                        <button class="btn-modal-eliminar">Eliminar</button>
+                    </div>
+                    <div class="modal-list-item">
+                        <span>5</span>
+                        <span>Estuche</span>
+                        <span>Sucursal B</span>
+                        <button class="btn-modal-eliminar">Eliminar</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer" style="justify-content: space-between;">
+                <button class="modal-action-button" id="btnAddProductoEnvio" style="width: auto;">
+                    Añadir Producto +
+                </button>
+                <button class="modal-action-button btn-pedir close-enviar" style="width: auto;">
+                    Enviar
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modalImprimir" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Imprimir Etiqueta</h2>
+                <span class="close-button close-imprimir">&times;</span>
+            </div>
+            <div class="modal-body">
+
+                <div class="modal-list-header">
+                    <span>Cantidad</span>
+                    <span>Etiqueta</span>
+                    <span>Producto</span>
+                    <span></span>
+                </div>
+
+                <div class="modal-scroll-list" id="listaEtiquetas">
+                    <div class="modal-list-item">
+                        <span>50</span>
+                        <span>LENT-001</span>
+                        <span>Modelo XJ45</span>
+                        <button class="btn-modal-eliminar">Eliminar</button>
+                    </div>
+                    <div class="modal-list-item">
+                        <span>20</span>
+                        <span>LENT-002</span>
+                        <span>RayBan Av.</span>
+                        <button class="btn-modal-eliminar">Eliminar</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer" style="justify-content: space-between;">
+                <button class="modal-action-button btn-limpiar close-imprimir" style="width: auto;">
+                    Imprimir
+                </button>
+                <button class="modal-action-button btn-pedir" style="width: auto;">
+                    Editar etiqueta
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Funciones de Modales ---
+            function setupModal(modalId, btnOpenId, closeClass) {
+                const modal = document.getElementById(modalId);
+                const btnOpen = document.getElementById(btnOpenId);
+
+                if (btnOpen) {
+                    btnOpen.addEventListener('click', () => modal.style.display = 'flex');
+                }
+
+                modal.querySelectorAll('.' + closeClass).forEach(el => {
+                    el.addEventListener('click', () => modal.style.display = 'none');
+                });
+
+                window.addEventListener('click', (e) => { if(e.target == modal) modal.style.display = 'none'; });
+            }
+
+            setupModal('modalEnviar', 'btnAbrirEnviar', 'close-enviar');
+            setupModal('modalImprimir', 'btnAbrirImprimir', 'close-imprimir');
+
+            // --- Botones "Eliminar" dentro de los modales ---
+            document.addEventListener('click', function(e) {
+                if(e.target.classList.contains('btn-modal-eliminar')) {
+                    e.target.closest('.modal-list-item').remove();
+                }
+            });
+
+            // --- Simular "Añadir Producto" en Modal Enviar ---
+            document.getElementById('btnAddProductoEnvio').addEventListener('click', function() {
+                const lista = document.getElementById('listaEnvios');
+                const item = document.createElement('div');
+                item.className = 'modal-list-item';
+                item.innerHTML = `
+                <span>1</span>
+                <span>Nuevo Prod.</span>
+                <span>Matriz</span>
+                <button class="btn-modal-eliminar">Eliminar</button>
+            `;
+                lista.appendChild(item);
+            });
+
+            // --- Checkbox Select All ---
+            document.getElementById('selectAll').addEventListener('change', function() {
+                document.querySelectorAll('.row-check').forEach(c => c.checked = this.checked);
+            });
+        });
+    </script>
+
+</main>
+</body>
+</html>

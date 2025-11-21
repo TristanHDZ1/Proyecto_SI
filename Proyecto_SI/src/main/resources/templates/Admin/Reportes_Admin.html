@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Reportes | Admin</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/admin/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Reportes</h1>
+    </div>
+
+    <div class="filters-container">
+
+        <div class="filter-row-distributed" style="margin-bottom: 1rem;">
+            <select class="filter-select">
+                <option value="">Selecciona sucursal</option>
+                <option value="matriz">Matriz</option>
+                <option value="sucursal-a">Sucursal A</option>
+                <option value="sucursal-b">Sucursal B</option>
+            </select>
+
+            <select class="filter-select">
+                <option value="">Selecciona tipo de reporte</option>
+                <option value="ventas">Ventas</option>
+                <option value="inventario">Inventario</option>
+                <option value="cierre">Cierres de Caja</option>
+            </select>
+
+            <input type="date" class="filter-input">
+        </div>
+
+        <div class="filter-row-distributed">
+            <div class="search-bar-container" style="flex: 2;"> <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Buscar por nombre o número de reporte">
+            </div>
+
+            <button id="btnGenerar" class="action-button-primary" style="background-color: #3b5998; margin-left: 1rem;">
+                Generar reporte
+            </button>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th class="col-ticket">No. de ticket</th>
+                <th class="col-cliente">Nombre del cliente</th>
+                <th class="col-sucursal">Sucursal</th>
+                <th class="col-fecha">Fecha</th>
+                <th class="col-total">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>#TK-9981</td>
+                <td>Ricardo Montaner</td>
+                <td>Matriz</td>
+                <td>20/11/2025</td>
+                <td>$2,500.00</td>
+            </tr>
+            <tr>
+                <td>#TK-9982</td>
+                <td>Santiago Dueñas</td>
+                <td>Sucursal A</td>
+                <td>20/11/2025</td>
+                <td>$1,200.00</td>
+            </tr>
+            <tr>
+                <td>#TK-9983</td>
+                <td>Javier Cruz</td>
+                <td>Matriz</td>
+                <td>19/11/2025</td>
+                <td>$4,800.00</td>
+            </tr>
+            <tr><td>#TK-9984</td><td>Cliente Genérico</td><td>Sucursal B</td><td>18/11/2025</td><td>$900.00</td></tr>
+            <tr><td>#TK-9985</td><td>Cliente Genérico</td><td>Matriz</td><td>18/11/2025</td><td>$1,100.00</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bottom-actions-container">
+        <button id="btnExportar" class="btn-exportar-pill">
+            Exportar <i class="fas fa-caret-down"></i>
+        </button>
+    </div>
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnGenerar = document.getElementById('btnGenerar');
+            const btnExportar = document.getElementById('btnExportar');
+
+            btnGenerar.addEventListener('click', () => {
+                alert("Generando reporte con los filtros seleccionados... (Simulación)");
+            });
+
+            btnExportar.addEventListener('click', () => {
+                alert("Descargando archivo Excel/PDF... (Simulación)");
+            });
+        });
+    </script>
+
+</main>
+</body>
+</html>

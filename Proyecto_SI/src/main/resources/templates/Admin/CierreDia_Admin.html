@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Cierre de Día | Admin</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/admin/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Cierre por día</h1>
+    </div>
+
+    <div class="filters-container" style="justify-content: space-between; align-items: center;">
+
+        <div class="date-display">
+            <i class="far fa-calendar-alt"></i> <span id="fechaActualTexto">Cargando fecha...</span>
+        </div>
+
+        <div class="filter-group-top">
+            <select class="filter-select">
+                <option value="">Selecciona sucursal</option>
+                <option value="matriz">Matriz</option>
+                <option value="sucursal-a">Sucursal A</option>
+                <option value="sucursal-b">Sucursal B</option>
+            </select>
+
+            <button id="btnEditarCierre" class="action-button-primary" style="background-color: #3b5998;">
+                <i class="fas fa-pen"></i> Editar
+            </button>
+        </div>
+    </div>
+
+    <div class="cierre-blue-card">
+        <form id="formCierreDia">
+
+            <div class="cierre-grid">
+
+                <div class="cierre-column">
+
+                    <div class="input-row-cierre">
+                        <div class="label-capsule">Venta total</div>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" class="cierre-input" value="0.00" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                    <div class="input-row-cierre">
+                        <div class="label-capsule">Tarjeta de crédito</div>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" class="cierre-input" value="0.00" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                    <div class="input-row-cierre">
+                        <div class="label-capsule">Gastos totales</div>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" class="cierre-input" value="0.00" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                    <div class="input-row-cierre">
+                        <div class="label-capsule">Saldos entrantes</div>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" class="cierre-input" value="0.00" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                    <div class="input-row-cierre">
+                        <div class="label-capsule">Efectivo</div>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" class="cierre-input" value="0.00" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="cierre-column">
+
+                    <h3 class="bank-section-title">Entradas por banco</h3>
+
+                    <div class="input-row-cierre">
+                        <div class="label-capsule capsule-light">Santander</div>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" class="cierre-input" value="0.00" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                    <div class="input-row-cierre">
+                        <div class="label-capsule capsule-light">BBVA</div>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" class="cierre-input" value="0.00" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                    <div class="input-row-cierre">
+                        <div class="label-capsule capsule-light">Zettle</div>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" class="cierre-input" value="0.00" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                    <div class="comments-section">
+                        <textarea class="cierre-textarea" placeholder="Comentarios..." rows="4" disabled></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="bottom-actions-container">
+        <button id="btnConfirmarCierre" class="btn-eliminar-bottom-right" style="background-color: #3b5998;">
+            Confirmar
+        </button>
+    </div>
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // 1. Poner Fecha Actual
+            const dateElement = document.getElementById('fechaActualTexto');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.innerText = new Date().toLocaleDateString('es-ES', options);
+
+            // 2. Lógica de Editar / Confirmar
+            const btnEditar = document.getElementById('btnEditarCierre');
+            const btnConfirmar = document.getElementById('btnConfirmarCierre');
+            const inputs = document.querySelectorAll('.cierre-input, .cierre-textarea');
+            let esEditable = false;
+
+            btnEditar.addEventListener('click', function() {
+                esEditable = !esEditable;
+                inputs.forEach(input => input.disabled = !esEditable);
+
+                if(esEditable) {
+                    this.innerHTML = '<i class="fas fa-lock-open"></i> Editando...';
+                    this.style.backgroundColor = '#28a745';
+                    inputs[0].focus(); // Poner foco en el primer input
+                } else {
+                    this.innerHTML = '<i class="fas fa-pen"></i> Editar';
+                    this.style.backgroundColor = '#3b5998';
+                }
+            });
+
+            btnConfirmar.addEventListener('click', function() {
+                if(confirm("¿Estás seguro de confirmar el Cierre del Día con estos montos?")) {
+                    alert("Cierre de día guardado exitosamente.");
+                    // Aquí se enviaría el formulario al backend
+
+                    // Bloqueamos todo de nuevo
+                    esEditable = false;
+                    inputs.forEach(input => input.disabled = true);
+                    btnEditar.innerHTML = '<i class="fas fa-pen"></i> Editar';
+                    btnEditar.style.backgroundColor = '#3b5998';
+                }
+            });
+
+        });
+    </script>
+
+</main>
+</body>
+</html>

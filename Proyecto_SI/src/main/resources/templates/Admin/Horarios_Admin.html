@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Horarios y Posiciones | Admin</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/admin/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Asignación de horarios y posiciones</h1>
+    </div>
+
+    <div class="filters-container">
+        <div class="filter-group-top">
+            <select class="filter-select">
+                <option value="">Selecciona sucursal</option>
+                <option value="matriz">Matriz</option>
+                <option value="sucursal-a">Sucursal A</option>
+                <option value="sucursal-b">Sucursal B</option>
+            </select>
+
+            <select class="filter-select">
+                <option value="">Filtrar por Puesto</option>
+                <option value="vendedor">Vendedor</option>
+                <option value="optometrista">Optometrista</option>
+                <option value="soporte">Soporte</option>
+            </select>
+
+            <button class="filter-button">Confirmar</button>
+
+            <button id="btnEditarTabla" class="action-button-primary" style="margin-left: 1rem; background-color: #3b5998;">
+                <i class="fas fa-pen"></i> Editar Horarios
+            </button>
+
+            <button id="btnNuevoEmpleado" class="action-button-primary" style="margin-left: 0.5rem; background-color: #28a745;">
+                <i class="fas fa-user-plus"></i> Nuevo Empleado
+            </button>
+        </div>
+    </div>
+
+    <div class="table-container table-container-wide">
+        <table id="tablaHorarios" class="data-table table-horarios">
+            <thead>
+            <tr>
+                <th class="col-sticky">Empleado</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+                <th>Puesto</th>
+                <th>Faltas</th>
+                <th>Hrs Trab.</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="col-sticky user-cell" data-label="Empleado">
+                    <div class="user-info-table">
+                        <img src="https://via.placeholder.com/40" alt="Avatar" class="mini-avatar">
+                        <span>Juan Pérez</span>
+                    </div>
+                </td>
+                <td data-label="Lunes">9:00 - 18:00</td>
+                <td data-label="Martes">9:00 - 18:00</td>
+                <td data-label="Miércoles">Descanso</td>
+                <td data-label="Jueves">9:00 - 18:00</td>
+                <td data-label="Viernes">9:00 - 18:00</td>
+                <td data-label="Sábado">9:00 - 14:00</td>
+                <td data-label="Domingo">Descanso</td>
+                <td data-label="Puesto"><span class="badge-role role-vendedor">Vendedor</span></td>
+                <td data-label="Faltas">0</td>
+                <td data-label="Horas">45</td>
+                <td data-label="Acción">
+                    <button class="icon-btn-delete"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-sticky user-cell" data-label="Empleado">
+                    <div class="user-info-table">
+                        <img src="https://via.placeholder.com/40" alt="Avatar" class="mini-avatar">
+                        <span>Dra. Ana L.</span>
+                    </div>
+                </td>
+                <td data-label="Lunes">10:00 - 19:00</td>
+                <td data-label="Martes">10:00 - 19:00</td>
+                <td data-label="Miércoles">10:00 - 19:00</td>
+                <td data-label="Jueves">Descanso</td>
+                <td data-label="Viernes">10:00 - 19:00</td>
+                <td data-label="Sábado">10:00 - 15:00</td>
+                <td data-label="Domingo">Descanso</td>
+                <td data-label="Puesto"><span class="badge-role role-opto">Optometrista</span></td>
+                <td data-label="Faltas">1</td>
+                <td data-label="Horas">48</td>
+                <td data-label="Acción">
+                    <button class="icon-btn-delete"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div id="nuevoEmpleadoModal" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Registrar Nuevo Empleado</h2>
+                <span class="close-button">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="resurtido-form">
+
+                    <div class="form-group">
+                        <label class="input-label">Nombre Completo</label>
+                        <input type="text" class="modal-input" placeholder="Nombre Apellido">
+                    </div>
+
+                    <div class="form-row-split">
+                        <div class="form-group">
+                            <label class="input-label">Usuario (Login)</label>
+                            <input type="text" class="modal-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="input-label">Contraseña</label>
+                            <input type="password" class="modal-input">
+                        </div>
+                    </div>
+
+                    <div class="form-row-split">
+                        <div class="form-group">
+                            <label class="input-label">Puesto / Rol</label>
+                            <select class="modal-select">
+                                <option value="Vendedor">Vendedor</option>
+                                <option value="Optometrista">Optometrista</option>
+                                <option value="Soporte">Soporte</option>
+                                <option value="Administrador">Administrador</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="input-label">Sucursal Base</label>
+                            <select class="modal-select">
+                                <option value="Matriz">Matriz</option>
+                                <option value="Sucursal A">Sucursal A</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label class="input-label">Foto de Perfil</label>
+                        <input type="file" class="modal-input" style="padding-top: 0.5rem;">
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action-button" id="btnGuardarEmpleado">
+                    <i class="fas fa-save"></i> Guardar Empleado
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Modal Nuevo Empleado ---
+            const modal = document.getElementById('nuevoEmpleadoModal');
+            const btnAbrir = document.getElementById('btnNuevoEmpleado');
+            const btnCerrar = modal.querySelector('.close-button');
+            const btnGuardar = document.getElementById('btnGuardarEmpleado');
+
+            btnAbrir.addEventListener('click', () => modal.style.display = 'flex');
+            btnCerrar.addEventListener('click', () => modal.style.display = 'none');
+            window.addEventListener('click', (e) => { if(e.target == modal) modal.style.display = 'none'; });
+
+            btnGuardar.addEventListener('click', () => {
+                alert("Nuevo empleado registrado exitosamente.");
+                modal.style.display = 'none';
+                // Aquí recargarías la página o agregarías la fila dinámicamente
+            });
+
+
+            // --- Editar Tabla (Horarios) ---
+            const btnEditar = document.getElementById('btnEditarTabla');
+            const tabla = document.getElementById('tablaHorarios');
+            let esEditable = false;
+
+            btnEditar.addEventListener('click', function() {
+                esEditable = !esEditable;
+                // Hacemos editables las celdas de días (columna 2 a la 8)
+                // nth-child empieza en 1. Lunes es la 2.
+                const celdasDias = tabla.querySelectorAll('tbody td:not(.col-sticky):not(:last-child):not(:nth-last-child(2)):not(:nth-last-child(3))');
+
+                celdasDias.forEach(c => c.setAttribute('contenteditable', esEditable));
+
+                if (esEditable) {
+                    this.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+                    this.style.backgroundColor = '#28a745';
+                    tabla.classList.add('modo-edicion');
+                } else {
+                    this.innerHTML = '<i class="fas fa-pen"></i> Editar Horarios';
+                    this.style.backgroundColor = '#3b5998';
+                    tabla.classList.remove('modo-edicion');
+                    alert("Horarios actualizados.");
+                }
+            });
+
+            // Borrar Empleado
+            tabla.addEventListener('click', function(e) {
+                if(e.target.closest('.icon-btn-delete')) {
+                    if(confirm('¿Dar de baja a este empleado?')) {
+                        e.target.closest('tr').remove();
+                    }
+                }
+            });
+        });
+    </script>
+
+</main>
+</body>
+</html>

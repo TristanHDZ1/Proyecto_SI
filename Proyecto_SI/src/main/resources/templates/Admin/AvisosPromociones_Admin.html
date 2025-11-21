@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Avisos y Promociones | Admin</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/admin/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Avisos y Promociones</h1>
+    </div>
+
+    <div class="filters-container">
+        <div class="filter-group-top">
+            <select class="filter-select">
+                <option value="">Selecciona sucursal</option>
+                <option value="todas">Todas las sucursales</option>
+                <option value="matriz">Matriz</option>
+                <option value="sucursal-a">Sucursal A</option>
+                <option value="sucursal-b">Sucursal B</option>
+            </select>
+
+            <button class="filter-button">Confirmar</button>
+
+            <button id="btnNuevoAviso" class="action-button-primary">
+                <i class="fas fa-plus"></i> Nuevo Aviso
+            </button>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th class="col-promo">Promoción</th>
+                <th class="col-fecha hidden-mobile">Fecha de inicio</th>
+                <th class="col-fecha hidden-mobile">Fecha de cierre</th>
+                <th class="col-desc">Descripción</th>
+                <th class="col-accion">Acciones</th>
+            </tr>
+            </thead>
+            <tbody id="avisosTableBody">
+            <tr>
+                <td class="col-promo">Descuento Blue-Light</td>
+                <td class="col-fecha hidden-mobile">01/11/2025</td>
+                <td class="col-fecha hidden-mobile">30/11/2025</td>
+                <td class="col-desc">20% de descuento en todas las micas con filtro azul.</td>
+                <td class="col-accion">
+                    <button class="icon-btn-delete"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-promo">Aviso Cierre</td>
+                <td class="col-fecha hidden-mobile">20/11/2025</td>
+                <td class="col-fecha hidden-mobile">20/11/2025</td>
+                <td class="col-desc">La sucursal cerrará a las 3:00 PM por inventario.</td>
+                <td class="col-accion">
+                    <button class="icon-btn-delete"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="crearAvisoModal" class="modal modal-blue-theme">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Crear Nuevo Aviso</h2>
+                <span class="close-button">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="resurtido-form">
+                    <div class="form-group">
+                        <label class="input-label">Título del Aviso</label>
+                        <input type="text" id="tituloAviso" class="modal-input" placeholder="Ej: Oferta Buen Fin">
+                    </div>
+
+                    <div class="form-row-split">
+                        <div class="form-group">
+                            <label class="input-label">Fecha Inicio</label>
+                            <input type="date" id="fechaInicio" class="modal-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="input-label">Fecha Cierre</label>
+                            <input type="date" id="fechaFin" class="modal-input">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="width: 100%; margin-top: 1rem;">
+                        <label class="input-label">Descripción (para el carrusel)</label>
+                        <textarea id="descAviso" class="modal-input" rows="3" style="height: auto;" placeholder="Escribe los detalles..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-action-button" id="guardarAvisoBtn">
+                    <i class="fas fa-save"></i> Publicar Aviso
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('crearAvisoModal');
+            const btnNuevo = document.getElementById('btnNuevoAviso');
+            const btnCerrar = modal.querySelector('.close-button');
+            const btnGuardar = document.getElementById('guardarAvisoBtn');
+            const tableBody = document.getElementById('avisosTableBody');
+
+            // Abrir/Cerrar Modal
+            btnNuevo.addEventListener('click', () => modal.style.display = 'flex');
+            btnCerrar.addEventListener('click', () => modal.style.display = 'none');
+            window.addEventListener('click', (e) => { if(e.target == modal) modal.style.display = 'none'; });
+
+            // Guardar Aviso (Simulado)
+            btnGuardar.addEventListener('click', () => {
+                const titulo = document.getElementById('tituloAviso').value;
+                const desc = document.getElementById('descAviso').value;
+                const fecha1 = document.getElementById('fechaInicio').value;
+                const fecha2 = document.getElementById('fechaFin').value;
+
+                if(titulo && desc && fecha1 && fecha2) {
+                    // Crear fila nueva visualmente
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                    <td class="col-promo">${titulo}</td>
+                    <td class="col-fecha hidden-mobile">${fecha1}</td>
+                    <td class="col-fecha hidden-mobile">${fecha2}</td>
+                    <td class="col-desc">${desc}</td>
+                    <td class="col-accion">
+                        <button class="icon-btn-delete"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                `;
+                    // Añadir lógica de borrado al nuevo botón
+                    row.querySelector('.icon-btn-delete').addEventListener('click', function() {
+                        row.remove();
+                    });
+
+                    tableBody.prepend(row); // Añadir al principio
+                    modal.style.display = 'none';
+
+                    // Limpiar campos
+                    document.getElementById('tituloAviso').value = '';
+                    document.getElementById('descAviso').value = '';
+                } else {
+                    alert("Por favor completa todos los campos.");
+                }
+            });
+
+            // Lógica para botones de borrar existentes
+            document.querySelectorAll('.icon-btn-delete').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('tr').remove();
+                });
+            });
+        });
+    </script>
+
+</main>
+</body>
+</html>
