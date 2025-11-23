@@ -3,161 +3,260 @@ package Sistemas_Informacion.Proyecto.Proyecto_SI.Controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-// ¡Ya no necesitamos Authentication ni GrantedAuthority! ¡Bravo!
 
 @Controller
 public class DashboardController {
 
-    /**
-     * Muestra el dashboard de Administrador.
-     * Escucha en la URL a la que redirige el LoginController.
-     */
+    // =====================
+    // ADMINISTRADOR
+    // =====================
+
     @GetMapping("/admin/dashboard")
     public String showAdminDashboard(Model model) {
-        // Ponemos datos FALSOS (simulados) para que la plantilla los muestre
-        model.addAttribute("username", "Admin Simulado");
-        model.addAttribute("pageTitle", "Panel de Admin");
-        model.addAttribute("role", "Administrador");
-
-        // Devuelve la ruta a tu archivo: templates/Admin/PanelControl_Admin.html
+        model.addAttribute("username", "Administrador");
         return "Admin/PanelControl_Admin";
     }
-    // Mapeo para la vista de Historiales del Admin
+
     @GetMapping("/admin/historial")
     public String verHistoriales(Model model) {
-        // Aquí simulamos el usuario, igual que en tus otros métodos
         model.addAttribute("username", "Administrador");
-
-        // "adminHistorial" debe ser EXACTAMENTE el nombre de tu archivo HTML (sin .html)
         return "Admin/Historial_Admin";
     }
 
-    // Mapeo para Avisos y Promociones
     @GetMapping("/admin/avisos")
     public String verAvisos(Model model) {
         model.addAttribute("username", "Administrador");
-        return "Admin/AvisosPromociones_Admin"; // Nombre del archivo HTML nuevo
+        return "Admin/AvisosPromociones_Admin";
     }
 
-    // Mapeo para Inventario en Sucursal
     @GetMapping("/admin/sucursales")
     public String verInventarioSucursal(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/ProductosSucursal_Admin";
     }
 
-    // Mapeo para Pulido
     @GetMapping("/admin/pulido")
     public String verPulido(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/Pulido_Admin";
     }
 
-    // Mapeo para Métricas
     @GetMapping("/admin/metricas")
     public String verMetricas(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/Metricas_Admin";
     }
 
-    // Mapeo para Notas de Proveedores
     @GetMapping("/admin/notas-proveedores")
     public String verNotasProveedores(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/NotasProvedores_Admin";
     }
 
-    // Mapeo para Cierre de Día
     @GetMapping("/admin/cierre")
     public String verCierreDia(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/CierreDia_Admin";
     }
 
-    // Mapeo para Reportes (Tablas)
     @GetMapping("/admin/reportes")
     public String verReportes(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/Reportes_Admin";
     }
 
-    // Mapeo para Saldos
     @GetMapping("/admin/saldos")
     public String verSaldos(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/Saldos_Admin";
     }
 
-    // Mapeo para Horarios
     @GetMapping("/admin/horarios")
     public String verHorarios(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/Horarios_Admin";
     }
 
-    // Mapeo para Estado de Cuenta Proveedores
     @GetMapping("/admin/cuentas-proveedores")
     public String verEstadoProveedores(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/EstadosCuentaProvedores_Admin";
     }
 
-    // Mapeo para Ventas Quincenales
     @GetMapping("/admin/ventas")
     public String verVentasAdmin(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/Ventas_Admin";
     }
 
-    // Mapeo para Configuración de Ticket
     @GetMapping("/admin/config-ticket")
     public String verConfigTicket(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/EtiquetasTickes_Admin";
     }
 
-    // Mapeo para Productos Almacén
     @GetMapping("/admin/almacen")
     public String verAlmacen(Model model) {
         model.addAttribute("username", "Administrador");
         return "Admin/ProductosAlmacen_Admin";
     }
-    /**
-     * Muestra el dashboard de Vendedor.
-     */
+
+
+    // =====================
+    // VENDEDOR
+    // =====================
+
     @GetMapping("/vendedor/dashboard")
     public String showVendedorDashboard(Model model) {
-        model.addAttribute("username", "Vendedor Simulado");
-        model.addAttribute("pageTitle", "Panel de Ventas");
-        model.addAttribute("role", "Vendedor");
-
-        // Devuelve la ruta: templates/Vendedor/PanelControl_Vendedor.html
+        model.addAttribute("username", "Vendedor");
         return "Vendedor/PanelControl_Vendedor";
     }
 
-    /**
-     * Muestra el dashboard de Optometrista.
-     */
+    @GetMapping("/vendedor/asistencia")
+    public String asistenciaVendedor(Model model) {
+        model.addAttribute("username", "Vendedor");
+        return "Vendedor/Asistencia_Vendedor";
+    }
+
+    @GetMapping("/vendedor/cierre")
+    public String cierreDiaVendedor(Model model) {
+        model.addAttribute("username", "Vendedor");
+        return "Vendedor/CierreDia_Vendedor";
+    }
+
+    @GetMapping("/vendedor/historial")
+    public String historialVendedor(Model model) {
+        model.addAttribute("username", "Vendedor");
+        return "Vendedor/Historial_Vendedor";
+    }
+
+    @GetMapping("/vendedor/inventario")
+    public String inventarioQuincenalVendedor(Model model) {
+        model.addAttribute("username", "Vendedor");
+        return "Vendedor/InventarioQuincenal_Vendedor";
+    }
+
+    @GetMapping("/vendedor/nueva-venta")
+    public String nuevaVentaVendedor(Model model) {
+        model.addAttribute("username", "Vendedor");
+        return "Vendedor/NuevaVenta_Vendedor";
+    }
+
+    @GetMapping("/vendedor/avisos")
+    public String avisosVendedor(Model model) {
+        model.addAttribute("username", "Vendedor");
+        return "Vendedor/PromocionesAvisos_Vendedor";
+    }
+
+    @GetMapping("/vendedor/saldos")
+    public String saldosVendedor(Model model) {
+        model.addAttribute("username", "Vendedor");
+        return "Vendedor/Saldos_Vendedor";
+    }
+
+    @GetMapping("/vendedor/ventas")
+    public String ventasVendedor(Model model) {
+        model.addAttribute("username", "Vendedor");
+        return "Vendedor/Ventas_Vendedor";
+    }
+
+
+    // =====================
+    // OPTOMETRISTA
+    // =====================
+
     @GetMapping("/optometrista/dashboard")
     public String showOptometristaDashboard(Model model) {
-        model.addAttribute("username", "Opto Simulado");
-        model.addAttribute("pageTitle", "Panel de Optometrista");
-        model.addAttribute("role", "Optometrista");
-
-        // Devuelve la ruta: templates/Optometrista/PanelControl_Optometrista.html
+        model.addAttribute("username", "Optometrista");
         return "Optometrista/PanelControl_Optometrista";
     }
 
-    /**
-     * Muestra el dashboard de Soporte.
-     */
+    @GetMapping("/optometrista/historial")
+    public String historialOptometrista(Model model) {
+        model.addAttribute("username", "Optometrista");
+        return "Optometrista/Historial_Optometrista";
+    }
+
+    @GetMapping("/optometrista/nuevo-historial")
+    public String nuevoHistorialOptometrista(Model model) {
+        model.addAttribute("username", "Optometrista");
+        return "Optometrista/NuevoHistorial_Optometrista";
+    }
+
+    @GetMapping("/optometrista/ventas")
+    public String ventasOptometrista(Model model) {
+        model.addAttribute("username", "Optometrista");
+        return "Optometrista/Ventas_Optometrista";
+    }
+
+    @GetMapping("/optometrista/garantias")
+    public String garantiasOptometrista(Model model) {
+        model.addAttribute("username", "Optometrista");
+        return "Optometrista/Garantias_Optometrista";
+    }
+
+    @GetMapping("/optometrista/avisos")
+    public String avisosOptometrista(Model model) {
+        model.addAttribute("username", "Optometrista");
+        return "Optometrista/PromocionesAvisos_Optometrista";
+    }
+
+
+    // =====================
+    // SOPORTE
+    // =====================
+
     @GetMapping("/soporte/dashboard")
     public String showSoporteDashboard(Model model) {
-        model.addAttribute("username", "Soporte Simulado");
-        model.addAttribute("pageTitle", "Panel de Soporte");
-        model.addAttribute("role", "Soporte");
-
-        // Devuelve la ruta: templates/Soporte/PanelControl_Soporte.html
+        model.addAttribute("username", "Soporte");
         return "Soporte/PanelControl_Soporte";
+    }
+
+    @GetMapping("/soporte/cierre")
+    public String verCierreDiaSoporte(Model model) {
+        model.addAttribute("username", "Soporte");
+        return "Soporte/CierreDia_Soporte";
+    }
+
+    @GetMapping("/soporte/cuentas-proveedores")
+    public String verEstadoProveedoresSoporte(Model model) {
+        model.addAttribute("username", "Soporte");
+        return "Soporte/EstadoCuentasProvedores_Soporte";
+    }
+
+    @GetMapping("/soporte/garantias")
+    public String verGarantiasSoporte(Model model) {
+        model.addAttribute("username", "Soporte");
+        return "Soporte/Garantias_Soporte";
+    }
+
+    @GetMapping("/soporte/historial")
+    public String verHistorialSoporte(Model model) {
+        model.addAttribute("username", "Soporte");
+        return "Soporte/Historial_Soporte";
+    }
+
+    @GetMapping("/soporte/notas-proveedores")
+    public String verNotasProveedoresSoporte(Model model) {
+        model.addAttribute("username", "Soporte");
+        return "Soporte/NotasProvedores_Soporte";
+    }
+
+    @GetMapping("/soporte/pulido")
+    public String verPulidoSoporte(Model model) {
+        model.addAttribute("username", "Soporte");
+        return "Soporte/Pulido_Soporte";
+    }
+
+    @GetMapping("/soporte/saldos")
+    public String verSaldosSoporte(Model model) {
+        model.addAttribute("username", "Soporte");
+        return "Soporte/Saldos_Soporte";
+    }
+
+    @GetMapping("/soporte/ventas")
+    public String verVentasSoporte(Model model) {
+        model.addAttribute("username", "Soporte");
+        return "Soporte/Ventas_Soporte";
     }
 }
