@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Saldos | Soporte</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/soporte/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Saldos</h1>
+    </div>
+
+    <div class="filters-container">
+        <div class="filter-group-top">
+            <select class="filter-select">
+                <option value="">Selecciona sucursal</option>
+                <option value="matriz">Matriz</option>
+                <option value="sucursal-a">Sucursal A</option>
+            </select>
+
+            <button id="btnEditarModo" class="action-button-primary" style="background-color: #3b5998;">
+                <i class="fas fa-pen"></i> Editar
+            </button>
+
+            <button id="btnAgregarFila" class="action-button-primary"
+                    style="margin-left: 0.5rem; background-color: #17a2b8; display: none;">
+                <i class="fas fa-plus"></i> Nuevo Trabajo
+            </button>
+        </div>
+    </div>
+
+    <div class="table-container table-container-wide">
+        <table id="tablaSaldos" class="data-table table-saldos table-responsive-cards">
+            <thead>
+            <tr>
+                <th>No. Ticket</th>
+                <th>Fecha</th>
+                <th>Nombre Cliente</th>
+                <th>Teléfono</th>
+                <th>VT (Total)</th>
+                <th>A/C (Abono)</th>
+                <th>Saldo</th>
+                <th>Material</th>
+                <th>Armazón</th>
+                <th>Estatus</th>
+                <th>Fecha Entrega</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <!-- ====== Datos Demo Adaptados para Soporte ====== -->
+
+            <tr>
+                <td data-label="No. Ticket">#2101</td>
+                <td data-label="Fecha">21/11/25</td>
+                <td data-label="Cliente">Marcos L.</td>
+                <td data-label="Teléfono">55-1111-2222</td>
+                <td data-label="VT">$4,200</td>
+                <td data-label="A/C">$2,000</td>
+                <td data-label="Saldo">$2,200</td>
+                <td data-label="Material">Policarbonato</td>
+                <td data-label="Armazón">Ray-Ban</td>
+                <td data-label="Estatus"><span class="status-badge status-amarillo">Procesando</span></td>
+                <td data-label="Entrega">27/11/25</td>
+                <td data-label="Acción"><button class="icon-btn-delete"><i class="fas fa-trash-alt"></i></button></td>
+            </tr>
+
+            <tr>
+                <td data-label="No. Ticket">#2092</td>
+                <td data-label="Fecha">18/11/25</td>
+                <td data-label="Cliente">Andrea P.</td>
+                <td data-label="Teléfono">55-9876-5432</td>
+                <td data-label="VT">$1,900</td>
+                <td data-label="A/C">$900</td>
+                <td data-label="Saldo">$1,000</td>
+                <td data-label="Material">CR-39</td>
+                <td data-label="Armazón">Económico</td>
+                <td data-label="Estatus"><span class="status-badge status-rosa">Por surtir</span></td>
+                <td data-label="Entrega">23/11/25</td>
+                <td data-label="Acción"><button class="icon-btn-delete"><i class="fas fa-trash-alt"></i></button></td>
+            </tr>
+
+            <tr>
+                <td data-label="No. Ticket">#2078</td>
+                <td data-label="Fecha">14/11/25</td>
+                <td data-label="Cliente">Luis R.</td>
+                <td data-label="Teléfono">55-7777-8888</td>
+                <td data-label="VT">$3,700</td>
+                <td data-label="A/C">$3,700</td>
+                <td data-label="Saldo">$0</td>
+                <td data-label="Material">Hi-Index</td>
+                <td data-label="Armazón">Guess</td>
+                <td data-label="Estatus"><span class="status-badge status-azul">Entregado</span></td>
+                <td data-label="Entrega">17/11/25</td>
+                <td data-label="Acción"><button class="icon-btn-delete"><i class="fas fa-trash-alt"></i></button></td>
+            </tr>
+
+            <tr>
+                <td data-label="No. Ticket">#2055</td>
+                <td data-label="Fecha">10/11/25</td>
+                <td data-label="Cliente">Carla N.</td>
+                <td data-label="Teléfono">55-6666-4444</td>
+                <td data-label="VT">$2,800</td>
+                <td data-label="A/C">$1,500</td>
+                <td data-label="Saldo">$1,300</td>
+                <td data-label="Material">Bifocal</td>
+                <td data-label="Armazón">Lentica T2</td>
+                <td data-label="Estatus"><span class="status-badge status-verde">Listo</span></td>
+                <td data-label="Entrega">15/11/25</td>
+                <td data-label="Acción"><button class="icon-btn-delete"><i class="fas fa-trash-alt"></i></button></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnEditar = document.getElementById('btnEditarModo');
+            const btnAgregar = document.getElementById('btnAgregarFila');
+            const tabla = document.getElementById('tablaSaldos');
+            let esEditable = false;
+
+            // ===========================
+            //   MODO EDICIÓN
+            // ===========================
+            btnEditar.addEventListener('click', function() {
+                esEditable = !esEditable;
+
+                // Todas menos: estatus (col 10) y acción
+                const celdas = tabla.querySelectorAll('tbody td:not(:nth-child(10)):not(:last-child)');
+                celdas.forEach(c => c.setAttribute('contenteditable', esEditable));
+
+                if (esEditable) {
+                    btnEditar.innerHTML = '<i class="fas fa-save"></i> Guardar';
+                    btnEditar.style.backgroundColor = '#28a745';
+                    tabla.classList.add('modo-edicion');
+                    btnAgregar.style.display = 'inline-flex';
+                } else {
+                    btnEditar.innerHTML = '<i class="fas fa-pen"></i> Editar';
+                    btnEditar.style.backgroundColor = '#3b5998';
+                    tabla.classList.remove('modo-edicion');
+                    btnAgregar.style.display = 'none';
+                    alert("Cambios guardados.");
+                }
+            });
+
+            // ===========================
+            //   AGREGAR NUEVA FILA
+            // ===========================
+            btnAgregar.addEventListener('click', function() {
+                const tbody = tabla.querySelector('tbody');
+                const plantilla = tbody.rows[0];
+                const nuevaFila = plantilla.cloneNode(true);
+
+                Array.from(nuevaFila.cells).forEach((celda, index) => {
+
+                    if (!celda.querySelector('button') && index !== 9) {
+                        celda.innerText = '';
+                        celda.setAttribute('contenteditable', 'true');
+                    }
+
+                    if (index === 9) {
+                        celda.innerHTML = '<span class="status-badge status-rosa">Por surtir</span>';
+                    }
+                });
+
+                tbody.insertBefore(nuevaFila, tbody.firstChild);
+            });
+
+            // ===========================
+            //   BORRAR FILA
+            // ===========================
+            tabla.addEventListener('click', function(e) {
+                if (e.target.closest('.icon-btn-delete')) {
+                    if (confirm("¿Eliminar este registro?")) {
+                        e.target.closest('tr').remove();
+                    }
+                }
+            });
+
+            // ===========================
+            //   CAMBIO DE ESTATUS
+            // ===========================
+            tabla.addEventListener('click', function(e) {
+                const badge = e.target.closest('.status-badge');
+                if (badge && esEditable) {
+                    if (badge.classList.contains('status-rosa')) {
+                        badge.className = 'status-badge status-amarillo'; badge.innerText = 'Procesando';
+                    } else if (badge.classList.contains('status-amarillo')) {
+                        badge.className = 'status-badge status-verde'; badge.innerText = 'Listo';
+                    } else if (badge.classList.contains('status-verde')) {
+                        badge.className = 'status-badge status-azul'; badge.innerText = 'Entregado';
+                    } else {
+                        badge.className = 'status-badge status-rosa'; badge.innerText = 'Por surtir';
+                    }
+                }
+            });
+
+        });
+    </script>
+
+</main>
+</body>
+</html>

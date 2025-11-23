@@ -50,7 +50,7 @@ public class DashboardController {
     @GetMapping("/admin/notas-proveedores")
     public String verNotasProveedores(Model model) {
         model.addAttribute("username", "Administrador");
-        return "Admin/NotasProvedores_Admin";
+        return "Admin/NotasProveedores_Admin";
     }
 
     @GetMapping("/admin/cierre")
@@ -78,10 +78,11 @@ public class DashboardController {
     }
 
     @GetMapping("/admin/cuentas-proveedores")
-    public String verEstadoProveedores(Model model) {
+    public String verEstadoProveedoresAdmin(Model model) {
         model.addAttribute("username", "Administrador");
-        return "Admin/EstadosCuentaProvedores_Admin";
+        return "Admin/EstadosCuentaProveedores_Admin";
     }
+
 
     @GetMapping("/admin/ventas")
     public String verVentasAdmin(Model model) {
@@ -92,7 +93,7 @@ public class DashboardController {
     @GetMapping("/admin/config-ticket")
     public String verConfigTicket(Model model) {
         model.addAttribute("username", "Administrador");
-        return "Admin/EtiquetasTickes_Admin";
+        return "Admin/EtiquetasTickets_Admin";
     }
 
     @GetMapping("/admin/almacen")
@@ -221,8 +222,9 @@ public class DashboardController {
     @GetMapping("/soporte/cuentas-proveedores")
     public String verEstadoProveedoresSoporte(Model model) {
         model.addAttribute("username", "Soporte");
-        return "Soporte/EstadoCuentasProvedores_Soporte";
+        return "Soporte/EstadoCuentasProveedores_Soporte";
     }
+
 
     @GetMapping("/soporte/garantias")
     public String verGarantiasSoporte(Model model) {
@@ -239,7 +241,7 @@ public class DashboardController {
     @GetMapping("/soporte/notas-proveedores")
     public String verNotasProveedoresSoporte(Model model) {
         model.addAttribute("username", "Soporte");
-        return "Soporte/NotasProvedores_Soporte";
+        return "Soporte/NotasProveedores_Soporte";
     }
 
     @GetMapping("/soporte/pulido")

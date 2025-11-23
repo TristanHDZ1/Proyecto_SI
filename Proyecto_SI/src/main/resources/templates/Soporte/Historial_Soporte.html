@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Historiales | Soporte</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/soporte/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Historiales</h1>
+    </div>
+
+    <div class="filters-container">
+        <div class="filter-group-top">
+            <select class="filter-select">
+                <option value="">Selecciona sucursal</option>
+                <option value="matriz">Matriz</option>
+                <option value="sucursal-a">Sucursal A</option>
+                <option value="sucursal-b">Sucursal B</option>
+            </select>
+
+            <input type="text"
+                   onfocus="this.type='date'"
+                   onblur="if(!this.value)this.type='text'"
+                   class="filter-input"
+                   placeholder="Selecciona fecha">
+
+            <button class="filter-button">Confirmar</button>
+        </div>
+
+        <div class="search-bar-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Buscar por nombre o número de ticket">
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th class="col-ticket">No. Ticket</th>
+                <th class="col-cliente">Nombre del Cliente</th>
+                <th class="col-armazon hidden-mobile">Armazón</th>
+                <th class="col-material hidden-mobile">Material</th>
+                <th class="col-fecha hidden-mobile">Fecha</th>
+                <th class="col-precio hidden-mobile">Precio Venta</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="col-ticket">#88001</td>
+                <td class="col-cliente">Luis Herrera</td>
+                <td class="col-armazon hidden-mobile">Infinit II</td>
+                <td class="col-material hidden-mobile">Policarbonato</td>
+                <td class="col-fecha hidden-mobile">12/11/2023</td>
+                <td class="col-precio hidden-mobile">$1,750.00</td>
+            </tr>
+            <tr>
+                <td class="col-ticket">#88002</td>
+                <td class="col-cliente">Ana Torres</td>
+                <td class="col-armazon hidden-mobile">Vogue VO5232</td>
+                <td class="col-material hidden-mobile">CR-39</td>
+                <td class="col-fecha hidden-mobile">11/11/2023</td>
+                <td class="col-precio hidden-mobile">$2,100.00</td>
+            </tr>
+            <tr>
+                <td class="col-ticket">#88003</td>
+                <td class="col-cliente">Miguel Soto</td>
+                <td class="col-armazon hidden-mobile">Oakley Pitchman</td>
+                <td class="col-material hidden-mobile">Alto Índice</td>
+                <td class="col-fecha hidden-mobile">10/11/2023</td>
+                <td class="col-precio hidden-mobile">$3,450.00</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+</body>
+</html>

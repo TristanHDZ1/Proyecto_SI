@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Estado de Cuenta Proveedores | Soporte</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/soporte/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Estado de cuenta de Proveedores</h1>
+    </div>
+
+    <div class="filters-container">
+
+        <div class="filter-row-distributed" style="margin-bottom: 1rem;">
+
+            <select class="filter-select">
+                <option value="">Selecciona sucursal</option>
+                <option value="matriz">Matriz</option>
+                <option value="sucursal-a">Sucursal A</option>
+                <option value="sucursal-b">Sucursal B</option>
+            </select>
+
+            <select class="filter-select">
+                <option value="">Selecciona proveedor</option>
+                <option value="luxottica">Luxottica</option>
+                <option value="marchon">Marchon</option>
+                <option value="safilo">Safilo</option>
+            </select>
+
+            <button id="btnEditarModo" class="action-button-primary"
+                    style="background-color: #3b5998; margin-left: auto;">
+                <i class="fas fa-pen"></i> Editar
+            </button>
+
+            <button id="btnAgregarFila" class="action-button-primary"
+                    style="margin-left: 0.5rem; background-color: #17a2b8; display: none;">
+                <i class="fas fa-plus"></i> Nueva Factura
+            </button>
+
+        </div>
+
+        <div class="search-bar-container" style="width: 100%;">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Buscar por fecha o factura">
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table id="tablaProveedores" class="data-table table-responsive-cards">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Cantidad por día</th>
+                <th>Pago</th>
+                <th>Factura</th>
+                <th>Imagen</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr>
+                <td data-label="Fecha">15/11/2025</td>
+                <td data-label="Cant. por día">10 pzas</td>
+                <td data-label="Pago">$9,800.00</td>
+                <td data-label="Factura">SPT-001</td>
+                <td data-label="Imagen">
+                    <button class="icon-btn-view"><i class="fas fa-image"></i> Ver</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td data-label="Fecha">14/11/2025</td>
+                <td data-label="Cant. por día">7 pzas</td>
+                <td data-label="Pago">$6,500.00</td>
+                <td data-label="Factura">SPT-002</td>
+                <td data-label="Imagen">
+                    <button class="icon-btn-view"><i class="fas fa-image"></i> Ver</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td data-label="Fecha">13/11/2025</td>
+                <td data-label="Cant. por día">12 pzas</td>
+                <td data-label="Pago">$11,200.00</td>
+                <td data-label="Factura">SPT-003</td>
+                <td data-label="Imagen">
+                    <button class="icon-btn-view"><i class="fas fa-image"></i> Ver</button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div class="totals-bar">
+            <div class="total-item">TOTAL: $27,500.00</div>
+            <div class="total-item">TOTAL MÁS IVA: $31,900.00</div>
+            <div class="total-item">TOTAL POR PROVEEDORES: $27,500.00</div>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const btnEditar = document.getElementById('btnEditarModo');
+            const btnAgregar = document.getElementById('btnAgregarFila');
+            const tabla = document.getElementById('tablaProveedores');
+            let esEditable = false;
+
+            btnEditar.addEventListener('click', function() {
+                esEditable = !esEditable;
+
+                const celdas = tabla.querySelectorAll('tbody td:not(:last-child)');
+                celdas.forEach(c => c.setAttribute('contenteditable', esEditable));
+
+                if (esEditable) {
+                    btnEditar.innerHTML = '<i class="fas fa-save"></i> Guardar';
+                    btnEditar.style.backgroundColor = '#28a745';
+                    tabla.classList.add('modo-edicion');
+                    btnAgregar.style.display = 'inline-flex';
+
+                } else {
+                    btnEditar.innerHTML = '<i class="fas fa-pen"></i> Editar';
+                    btnEditar.style.backgroundColor = '#3b5998';
+                    tabla.classList.remove('modo-edicion');
+                    btnAgregar.style.display = 'none';
+
+                    alert("Datos guardados (incluyendo nuevas facturas).");
+                }
+            });
+
+            btnAgregar.addEventListener('click', function() {
+                const tbody = tabla.querySelector('tbody');
+                const plantilla = tbody.rows[0];
+                const nuevaFila = plantilla.cloneNode(true);
+
+                Array.from(nuevaFila.cells).forEach((celda, index) => {
+
+                    if (index === 0) {
+                        celda.innerText = new Date().toLocaleDateString('es-ES');
+                        celda.setAttribute('contenteditable', 'true');
+                        return;
+                    }
+
+                    if (celda.querySelector('button')) return;
+
+                    celda.innerText = '';
+                    celda.setAttribute('contenteditable', 'true');
+                });
+
+                tbody.insertBefore(nuevaFila, tbody.firstChild);
+            });
+
+            tabla.addEventListener('click', function(e) {
+                if (e.target.closest('.icon-btn-view')) {
+                    alert("Aquí se abriría el modal con la foto de la factura.");
+                }
+            });
+
+        });
+    </script>
+
+</main>
+</body>
+</html>

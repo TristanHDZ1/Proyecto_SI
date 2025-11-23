@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{Dashboard :: layout(~{::title}, ~{::content})}">
+<head>
+    <title th:fragment="title">Garantías | Soporte</title>
+</head>
+<body>
+
+<main class="content-area" th:fragment="content">
+
+    <div class="view-header">
+        <a th:href="@{/soporte/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="content-title">Actualización de garantías</h1>
+    </div>
+
+    <div class="filters-container">
+        <div class="filter-group-top">
+            <select class="filter-select">
+                <option value="">Selecciona sucursal</option>
+                <option value="matriz">Matriz</option>
+                <option value="sucursal-a">Sucursal A</option>
+                <option value="sucursal-b">Sucursal B</option>
+            </select>
+
+            <input type="month" class="filter-input" placeholder="Selecciona mes">
+
+            <button class="filter-button">Confirmar</button>
+
+            <button id="btnEditarModo" class="action-button-primary" style="margin-left: auto; background-color:#3b5998;">
+                <i class="fas fa-pen"></i> Editar
+            </button>
+
+            <button id="btnAgregarFila" class="action-button-primary" 
+                    style="margin-left: 0.5rem; background-color:#08335e; display:none;">
+                <i class="fas fa-plus"></i> Agregar
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== PRIMERA QUINCENA ==================== -->
+    <h3 class="section-subtitle" style="text-align:center; margin-top:2rem;">
+        Fecha del 1 al 15 del mes
+    </h3>
+
+    <div class="table-container table-container-wide">
+        <table id="tablaG1" class="data-table">
+            <thead>
+            <tr class="header-row-blue">
+                <th>Fecha</th>
+                <th>No. ticket</th>
+                <th>Motivo</th>
+                <th>Material</th>
+                <th>Serie</th>
+                <th>Armazón</th>
+                <th>Bisel</th>
+                <th>Mica</th>
+                <th>Tallado</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>2025-11-01</td>
+                <td>#8001</td>
+                <td>Error óptico</td>
+                <td>CR-39</td>
+                <td>S-11</td>
+                <td>Ray-Ban</td>
+                <td>$150</td>
+                <td>$300</td>
+                <td>$100</td>
+                <td>$550</td>
+            </tr>
+
+            <tr>
+                <td>2025-11-04</td>
+                <td>#8002</td>
+                <td>Garantía fábrica</td>
+                <td>Poly</td>
+                <td>S-22</td>
+                <td>Vogue</td>
+                <td>$0</td>
+                <td>$250</td>
+                <td>$120</td>
+                <td>$370</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ==================== SEGUNDA QUINCENA ==================== -->
+    <h3 class="section-subtitle" style="text-align:center; margin-top:2rem;">
+        Fecha del 16 al 28/29/30/31 del mes
+    </h3>
+
+    <div class="table-container table-container-wide">
+        <table id="tablaG2" class="data-table">
+            <thead>
+            <tr class="header-row-blue">
+                <th>Fecha</th>
+                <th>No. ticket</th>
+                <th>Motivo</th>
+                <th>Material</th>
+                <th>Serie</th>
+                <th>Armazón</th>
+                <th>Bisel</th>
+                <th>Mica</th>
+                <th>Tallado</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>2025-11-18</td>
+                <td>#8010</td>
+                <td>Mala adaptación</td>
+                <td>Hi-Index</td>
+                <td>S-99</td>
+                <td>Oakley</td>
+                <td>$200</td>
+                <td>$400</td>
+                <td>$150</td>
+                <td>$750</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ==================== SCRIPT ==================== -->
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const btnEditar = document.getElementById("btnEditarModo");
+            const btnAgregar = document.getElementById("btnAgregarFila");
+
+            const tablas = [
+                document.getElementById("tablaG1"),
+                document.getElementById("tablaG2")
+            ];
+
+            let esEditable = false;
+
+            btnEditar.addEventListener("click", function () {
+                esEditable = !esEditable;
+
+                tablas.forEach(tabla => {
+                    const celdas = tabla.querySelectorAll("tbody td");
+                    celdas.forEach(c => c.setAttribute("contenteditable", esEditable));
+                });
+
+                if (esEditable) {
+                    btnEditar.innerHTML = '<i class="fas fa-save"></i> Guardar';
+                    btnEditar.style.backgroundColor = "#28a745";
+                    btnAgregar.style.display = "inline-flex";
+                } else {
+                    btnEditar.innerHTML = '<i class="fas fa-pen"></i> Editar';
+                    btnEditar.style.backgroundColor = "#3b5998";
+                    btnAgregar.style.display = "none";
+                    alert("Cambios guardados.");
+                }
+            });
+
+            btnAgregar.addEventListener("click", function () {
+
+                tablas.forEach(tabla => {
+                    const tbody = tabla.querySelector("tbody");
+                    const filaOriginal = tbody.rows[0];
+                    const nuevaFila = filaOriginal.cloneNode(true);
+
+                    nuevaFila.querySelectorAll("td").forEach(c => c.innerText = "");
+                    nuevaFila.cells[0].innerText = new Date().toISOString().slice(0, 10);
+
+                    tbody.appendChild(nuevaFila);
+                });
+            });
+
+        });
+    </script>
+
+</main>
+</body>
+</html>
